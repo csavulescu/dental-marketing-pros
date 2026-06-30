@@ -101,8 +101,8 @@ BODY HTML RULES (bodyHtml field):
 
 OUTPUT FORMAT: Respond with ONLY a single valid JSON object, no markdown fences, no preamble. Schema:
 {
-  "metaTitle": "string, <60 chars, includes keyword",
-  "metaDescription": "string, <155 chars, compelling, includes keyword",
+  "metaTitle": "string, <55 chars, includes the keyword naturally. Do NOT add the brand or site name — the template already appends ' | Dental Marketing Pros'.",
+  "metaDescription": "string, <155 chars, compelling, reads naturally to a human. Weave the keyword in naturally — do NOT open with the raw lowercase keyword phrase.",
   "excerpt": "string, 1-2 sentence summary for the blog listing card and page intro",
   "bodyHtml": "string, the full article body as an HTML fragment per the rules above. No H1.",
   "imageAlt": "string, descriptive alt text for a hero image",
