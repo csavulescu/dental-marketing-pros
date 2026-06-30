@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dental Marketing Pros | SEO, PPC & Web Design for UK Dental Practices</title>
+<meta name="description" content="Specialist dental marketing agency helping UK practices attract more patients with SEO, Google Ads and conversion-focused websites. Book a free strategy call.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#0d7a7a; --teal-dark:#0a5e5e; --teal-deep:#063d3d;
+    --ink:#0f2e2e; --slate:#52606a; --line:#e3e9e9;
+    --mist:#f3f7f7; --mist2:#eaf3f3; --white:#ffffff; --gold:#f5b301;
+    --radius:14px; --shadow:0 18px 50px -20px rgba(6,61,61,.28);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;color:var(--ink);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4,.display{font-family:'Plus Jakarta Sans',sans-serif;line-height:1.1;letter-spacing:-.02em}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--teal)}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.95rem;padding:14px 24px;border-radius:10px;transition:.2s;cursor:pointer;border:none}
+  .btn-primary{background:var(--teal);color:#fff}
+  .btn-primary:hover{background:var(--teal-dark);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+  .btn-white{background:#fff;color:var(--teal)}
+  .btn-white:hover{background:#f0f0f0}
+
+  /* NAV */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav{position:relative;display:flex;align-items:center;justify-content:space-between;height:74px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Plus Jakarta Sans';font-weight:800}
+  .logo-mark{width:34px;height:34px;flex:none}
+  .logo-text{font-size:.95rem;line-height:1.05;letter-spacing:.01em}
+  .logo-text span{display:block;font-size:.62rem;font-weight:700;letter-spacing:.18em;color:var(--teal)}
+  .nav-links{display:flex;align-items:center;gap:30px;font-size:.92rem;font-weight:500}
+  .nav-links a:hover{color:var(--teal)}
+  .nav-menu{display:flex;align-items:center;gap:28px}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .menu-btn{display:none;background:none;border:none;font-size:1.6rem;line-height:1;cursor:pointer;color:var(--ink)}
+  .has-mega{position:relative}
+  .mega-trigger{display:inline-flex;align-items:center;gap:5px;cursor:pointer}
+  .mega-trigger .chev{transition:transform .2s}
+  .mega{position:absolute;top:100%;left:50%;transform:translateX(-50%);padding-top:16px;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease;z-index:60}
+  .has-mega:hover .mega,.has-mega:focus-within .mega{opacity:1;visibility:visible}
+  .has-mega:hover .mega-trigger .chev{transform:rotate(180deg)}
+  .mega-panel{width:640px;max-width:92vw;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px}
+  .mega-inner{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .mega-card{display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:12px;transition:background .15s}
+  .mega-card:hover{background:var(--mist)}
+  .mega-ic{width:42px;height:42px;border-radius:10px;background:var(--mist2);color:var(--teal);display:flex;align-items:center;justify-content:center;flex:none}
+  .mega-tx b{display:block;font-family:'Plus Jakarta Sans';font-size:1rem;color:var(--ink);margin-bottom:3px}
+  .mega-tx small{display:block;font-size:.82rem;color:var(--slate);line-height:1.45}
+  .mega-foot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;border-top:1px solid var(--line);padding:14px 14px 0;font-size:.85rem;color:var(--slate)}
+  .mega-all{color:var(--teal);font-weight:700}
+  .mega-all:hover{text-decoration:underline}
+
+  /* HERO */
+  .hero{position:relative;overflow:hidden;background:#dfeceb;min-height:560px;display:flex;align-items:center}
+  .hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;z-index:1}
+  .hero::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.9) 30%,rgba(255,255,255,.5) 52%,rgba(255,255,255,0) 78%)}
+  .hero-wrap{position:relative;z-index:3;width:100%}
+  .hero-copy{max-width:540px;padding:80px 0 88px}
+  .hero h1{font-size:3.5rem;font-weight:800;margin:18px 0 20px}
+  .hero h1 .g{color:var(--teal)}
+  .hero p.lead{font-size:1.1rem;color:var(--slate);max-width:440px;margin-bottom:30px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:30px}
+  .trust-row{display:flex;align-items:center;gap:14px}
+  .avatars{display:flex}
+  .avatars span{width:38px;height:38px;border-radius:50%;border:2.5px solid #fff;margin-left:-10px;background:var(--mist2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--teal)}
+  .avatars span:first-child{margin-left:0}
+  .trust-row .stars{color:var(--gold);font-size:.9rem;letter-spacing:1px}
+  .trust-row small{display:block;color:var(--slate);font-size:.8rem}
+  .stat-card{position:absolute;right:10px;bottom:104px;background:#fff;border-radius:14px;padding:18px 22px;box-shadow:var(--shadow);width:240px;z-index:4}
+  .stat-card small{font-size:.78rem;color:var(--slate);font-weight:600}
+  .stat-card .big{font-family:'Plus Jakarta Sans';font-size:2rem;font-weight:800;color:var(--teal);line-height:1.1;margin-top:4px}
+  .stat-card .sub{font-size:.72rem;color:var(--slate)}
+  .spark{margin-top:8px;display:block}
+
+  /* LOGO STRIP */
+  .strip{background:var(--mist);padding:30px 0}
+  .strip p{text-align:center;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:18px}
+  .strip-logos{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;opacity:.55;font-family:'Plus Jakarta Sans';font-weight:700;font-size:1.1rem;color:var(--ink)}
+  .strip-logos span{flex:1;text-align:center;min-width:120px}
+
+  /* SECTION SHELL */
+  section{padding:74px 0}
+  .sec-head{text-align:center;max-width:640px;margin:0 auto 46px}
+  .sec-head h2{font-size:2.3rem;font-weight:800;margin-top:10px}
+
+  /* SERVICES */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .card{border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px;transition:.25s;background:#fff}
+  .card:hover{box-shadow:var(--shadow);transform:translateY(-4px);border-color:transparent}
+  .card .ic{width:52px;height:52px;border-radius:12px;background:var(--mist2);display:flex;align-items:center;justify-content:center;color:var(--teal);margin-bottom:18px}
+  .card h3{font-size:1.35rem;font-weight:700;margin-bottom:10px}
+  .card p{color:var(--slate);font-size:.95rem;margin-bottom:16px}
+  .card ul{list-style:none;margin-bottom:18px}
+  .card li{font-size:.9rem;color:var(--ink);padding:5px 0 5px 26px;position:relative}
+  .card li:before{content:"✓";position:absolute;left:0;color:var(--teal);font-weight:700}
+  .card .more{font-weight:600;color:var(--teal);font-size:.92rem;display:inline-flex;gap:6px}
+
+  /* RESULTS */
+  .results{background:var(--mist)}
+  .results-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+  .results h2{font-size:2rem;font-weight:800;margin:10px 0 30px}
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:30px}
+  .metric .ic{color:var(--teal);margin-bottom:8px}
+  .metric .big{font-family:'Plus Jakarta Sans';font-size:1.9rem;font-weight:800;color:var(--teal)}
+  .metric .lab{font-weight:700;font-size:.92rem}
+  .metric small{color:var(--slate);font-size:.78rem}
+  .quote-card{background:#fff;border-radius:16px;padding:34px;box-shadow:var(--shadow)}
+  .quote-card .qm{font-size:3rem;color:var(--teal);line-height:.6;font-family:Georgia,serif}
+  .quote-card blockquote{font-size:1.1rem;font-weight:500;margin:14px 0 24px;color:var(--ink)}
+  .quote-card .author{display:flex;align-items:center;gap:12px}
+  .quote-card .author .a-av{width:48px;height:48px;border-radius:50%;background:var(--mist2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--teal)}
+  .quote-card .author b{display:block;font-size:.95rem}
+  .quote-card .author small{color:var(--slate);font-size:.82rem}
+  .quote-card .stars{color:var(--gold);margin-top:14px;letter-spacing:2px}
+
+  /* PROCESS */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative}
+  .step{text-align:center}
+  .step .ic{width:64px;height:64px;border-radius:50%;background:var(--mist2);display:flex;align-items:center;justify-content:center;color:var(--teal);margin:0 auto 8px}
+  .step .num{width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+  .step h4{font-size:1.05rem;margin-bottom:6px}
+  .step p{font-size:.85rem;color:var(--slate)}
+
+  /* CTA BANNER */
+  .cta-band{background:linear-gradient(120deg,var(--teal),var(--teal-deep));border-radius:20px;padding:48px 50px;display:flex;align-items:center;justify-content:space-between;gap:30px;color:#fff;flex-wrap:wrap;position:relative;overflow:hidden}
+  .cta-band .eyebrow{color:rgba(255,255,255,.75)}
+  .cta-band h2{font-size:1.9rem;font-weight:800;margin-top:8px;max-width:520px}
+  .cta-band .cb-right{text-align:center}
+  .cta-band small{display:block;margin-top:10px;color:rgba(255,255,255,.8);font-size:.85rem}
+  .cta-band .ghost-tooth{position:absolute;right:30px;bottom:-30px;font-size:11rem;color:rgba(255,255,255,.07)}
+
+  /* FOOTER */
+  footer{background:var(--teal-deep);color:rgba(255,255,255,.8);padding:60px 0 28px;margin-top:74px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.3fr 1.3fr;gap:36px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.12)}
+  .foot-grid .logo-text{color:#fff}
+  footer h5{color:#fff;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;font-family:'Plus Jakarta Sans'}
+  footer ul{list-style:none}
+  footer li{margin-bottom:10px;font-size:.9rem}
+  footer a:hover{color:#fff}
+  .foot-about{font-size:.88rem;max-width:240px;margin:14px 0 18px}
+  .socials{display:flex;gap:12px}
+  .socials span{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.85rem}
+  .news-form{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+  .news-form input{padding:11px 14px;border-radius:8px;border:none;font-size:.88rem}
+  .foot-bottom{display:flex;justify-content:space-between;padding-top:22px;font-size:.82rem;flex-wrap:wrap;gap:10px}
+  .compliance-note{font-size:.72rem;color:rgba(255,255,255,.5);margin-top:14px;max-width:240px}
+
+  @media(max-width:900px){
+    .hero{min-height:0}
+    .hero h1{font-size:2.4rem}
+    .hero-photo{object-position:72% 16%}
+    .hero::before{background:linear-gradient(180deg,rgba(255,255,255,.94) 0%,rgba(255,255,255,.74) 52%,rgba(255,255,255,.62) 100%)}
+    .hero-copy{max-width:none;padding:46px 0 38px}
+    .stat-card{position:relative;right:auto;bottom:auto;margin:20px 0 0;width:240px}
+    .cards{grid-template-columns:1fr}
+    .results-grid{grid-template-columns:1fr;gap:34px}
+    .steps{grid-template-columns:1fr 1fr;gap:28px}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .menu-btn{display:block}
+    .nav-menu{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:14px;background:#fff;border:1px solid var(--line);border-top:none;padding:18px 24px;box-shadow:var(--shadow)}
+    nav.open .nav-menu{display:flex}
+    .nav-links{flex-direction:column;align-items:flex-start;gap:16px}
+    .nav-cta{width:100%}
+    .nav-cta .btn{width:100%;justify-content:center}
+    .mega{position:static;transform:none;padding-top:8px;opacity:1;visibility:visible}
+    .mega-panel{width:auto;max-width:none;border:none;box-shadow:none;border-radius:0;padding:0}
+    .mega-inner{grid-template-columns:1fr;gap:2px}
+    .mega-card{padding:10px 0}
+    .mega-foot{display:none}
+    .mega-trigger .chev{display:none}
+    .has-mega{width:100%}
+  }
+  @media(max-width:560px){
+    .hero h1{font-size:2.1rem}
+    .metrics{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
+    .cta-band{padding:34px 26px}
+    .foot-grid{grid-template-columns:1fr}
+  }
+</style>
+<link rel="canonical" href="https://dentalmarketingpros.co.uk/">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ProfessionalService","@id":"https://dentalmarketingpros.co.uk/#org","name":"Dental Marketing Pros","legalName":"Elite Talent Media LTD","url":"https://dentalmarketingpros.co.uk/","telephone":"+441302616311","email":"hello@dentalmarketingpros.co.uk","description":"Specialist dental marketing agency offering SEO, Google Ads and web design for UK dental practices.","areaServed":["South Yorkshire","North Derbyshire","United Kingdom"],"priceRange":"££"},{"@type":"WebSite","@id":"https://dentalmarketingpros.co.uk/#website","name":"Dental Marketing Pros","url":"https://dentalmarketingpros.co.uk/","publisher":{"@id":"https://dentalmarketingpros.co.uk/#org"}}]}</script>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="#" class="logo">
+        <svg class="logo-mark" viewBox="0 0 40 40" fill="none"><path d="M20 6c-5 0-7-2-11-2C5 4 3 7 3 12c0 8 3 15 5 19 1.5 3 4 3 5-1l2-7c.8-2.8 2.2-2.8 3 0l2 7c1 4 3.5 4 5 1 2-4 5-11 5-19 0-5-2-8-6-8-4 0-6 2-9 2z" fill="#0d7a7a"/></svg>
+        <span class="logo-text">DENTAL<span>MARKETING PROS</span></span>
+      </a>
+      <div class="nav-menu">
+        <div class="nav-links">
+          <a href="#">Home</a>
+          <a href="about.html">About Us</a>
+          <div class="has-mega">
+            <a href="services.html" class="mega-trigger">Services <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></a>
+            <div class="mega">
+              <div class="mega-panel">
+                <div class="mega-inner">
+                  <a class="mega-card" href="seo.html">
+                    <span class="mega-ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="10" r="7"/><path d="m20 20-4-4"/></svg></span>
+                    <span class="mega-tx"><b>SEO</b><small>Rank higher and win more local patients</small></span>
+                  </a>
+                  <a class="mega-card" href="ppc.html">
+                    <span class="mega-ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><circle cx="11" cy="11" r="3.5"/></svg></span>
+                    <span class="mega-tx"><b>PPC / Google Ads</b><small>Instant, measurable patient enquiries</small></span>
+                  </a>
+                  <a class="mega-card" href="web-design.html">
+                    <span class="mega-ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+                    <span class="mega-tx"><b>Web Design</b><small>Conversion-focused dental websites</small></span>
+                  </a>
+                  <a class="mega-card" href="dental-seo-sheffield.html">
+                    <span class="mega-ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                    <span class="mega-tx"><b>Location SEO</b><small>Pages built for your town &amp; region</small></span>
+                  </a>
+                </div>
+                <div class="mega-foot">
+                  <span>Specialist marketing, dentists only</span>
+                  <a href="services.html" class="mega-all">All services →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="#results">Results</a>
+          <a href="locations.html">Locations</a>
+          <a href="resources.html">Resources</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-cta">
+          <a href="contact.html" class="btn btn-primary">📅 Book a Free Strategy Call</a>
+        </div>
+      </div>
+      <button class="menu-btn" aria-label="Menu" aria-expanded="false">☰</button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <img src="hero.jpg" alt="Smiling dentist with arms crossed in a bright, modern dental practice" class="hero-photo">
+  <div class="wrap hero-wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">Marketing that grows your practice</span>
+      <h1>More Patients.<br>Stronger Practice.<br><span class="g">Lasting Growth.</span></h1>
+      <p class="lead">We help dental practices attract more ideal patients, book more appointments and grow with marketing that actually works.</p>
+      <div class="hero-cta">
+        <a href="contact.html" class="btn btn-primary">📅 Book a Free Strategy Call</a>
+        <a href="#services" class="btn btn-ghost">▶ See How We Help</a>
+      </div>
+      <div class="trust-row">
+        <small style="color:var(--slate)">Dentists only · UK-wide · GDC &amp; ASA-compliant marketing</small>
+      </div>
+    </div>
+    <div class="stat-card">
+      <small>Our single focus</small>
+      <div class="big">Dentists only</div>
+      <div class="sub">SEO · Google Ads · Web design</div>
+      <svg class="spark" width="180" height="40" viewBox="0 0 180 40"><polyline points="0,34 30,30 60,28 90,20 120,16 150,8 178,2" fill="none" stroke="#0d7a7a" stroke-width="2.5"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- LOGO STRIP -->
+<div class="strip">
+  <div class="wrap">
+    <p>Specialist dental marketing across South Yorkshire &amp; the UK</p>
+    <div class="strip-logos">
+      <span>SEO</span><span>Google Ads</span><span>Web Design</span><span>Google Business Profile</span><span>GDC &amp; ASA Compliant</span>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div class="wrap">
+  <section id="services">
+    <div class="sec-head">
+      <span class="eyebrow">Tailored marketing solutions for dental practices</span>
+      <h2>Our Core Services</h2>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="ic"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg></div>
+        <h3>SEO</h3>
+        <p>Improve your rankings, drive organic traffic and attract more local patients.</p>
+        <ul><li>Local SEO &amp; Google Business Profile</li><li>On-page optimisation</li><li>Content strategy</li><li>Citations &amp; link building</li></ul>
+        <a href="seo.html" class="more">Learn More →</a>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.5" fill="currentColor"/></svg></div>
+        <h3>PPC</h3>
+        <p>Get in front of patients instantly with high-converting ads that deliver measurable results.</p>
+        <ul><li>Google Ads management</li><li>High-converting campaigns</li><li>Landing page optimisation</li><li>ROI-focused strategy</li></ul>
+        <a href="ppc.html" class="more">Learn More →</a>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>Web Design</h3>
+        <p>Conversion-focused websites designed to turn visitors into loyal patients.</p>
+        <ul><li>Modern, responsive design</li><li>SEO-friendly build</li><li>Fast &amp; secure</li><li>Built to convert</li></ul>
+        <a href="web-design.html" class="more">Learn More →</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- RESULTS -->
+<div class="results">
+  <div class="wrap">
+    <section id="results">
+      <div class="results-grid">
+        <div>
+          <span class="eyebrow">Why practices choose us</span>
+          <h2>A dental-only agency, built for results</h2>
+          <div class="metrics">
+            <div class="metric"><div class="ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-8 0v2M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></div><div class="big">100%</div><div class="lab">Dental focus</div><small>We work only with dental practices</small></div>
+            <div class="metric"><div class="ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 4-6"/></svg></div><div class="big">Tracked</div><div class="lab">Every enquiry</div><small>Calls and forms attributed</small></div>
+            <div class="metric"><div class="ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div><div class="big">GDC + ASA</div><div class="lab">Compliant</div><small>Marketing within the rules</small></div>
+            <div class="metric"><div class="ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div class="big">Full stack</div><div class="lab">SEO · PPC · Web</div><small>Plus Google Business Profile</small></div>
+          </div>
+          <a href="contact.html" class="btn btn-primary">📅 Book a Free Strategy Call</a>
+        </div>
+        <div class="quote-card">
+          <div class="qm">&ldquo;</div>
+          <blockquote>Dental-only expertise, attribution-first reporting, and marketing that stays within GDC and ASA guidelines. Real results, honestly reported, never inflated.</blockquote>
+          <div class="author">
+            <div class="a-av">✓</div>
+            <div><b>Our promise to your practice</b><small>Dental Marketing Pros</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<div class="wrap">
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Our simple 4-step process</span>
+      <h2>A Clear Process. Powerful Results.</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="ic"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg></div><div class="num">1</div><h4>Discover</h4><p>We learn about your practice, goals and ideal patients.</p></div>
+      <div class="step"><div class="ic"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div><div class="num">2</div><h4>Strategise</h4><p>We create a tailored marketing plan designed for growth.</p></div>
+      <div class="step"><div class="ic"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19l3-3m0 0l8-8 3 3-8 8-3-3zm8-8l3-3"/><path d="M12 19c3 0 7-4 7-9"/></svg></div><div class="num">3</div><h4>Implement</h4><p>We execute campaigns and build high-performing assets.</p></div>
+      <div class="step"><div class="ic"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><div class="num">4</div><h4>Grow</h4><p>We track results, optimise and keep your practice growing.</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- CTA BAND -->
+<div class="wrap">
+  <div class="cta-band" id="contact">
+    <div>
+      <span class="eyebrow">Ready to grow your practice?</span>
+      <h2>Let's create a marketing strategy that delivers more patients.</h2>
+    </div>
+    <div class="cb-right">
+      <a href="contact.html" class="btn btn-white">📅 Book Your Free Strategy Call</a>
+      <small>No obligation. Just growth.</small>
+    </div>
+    <div class="ghost-tooth">🦷</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo"><svg class="logo-mark" viewBox="0 0 40 40"><path d="M20 6c-5 0-7-2-11-2C5 4 3 7 3 12c0 8 3 15 5 19 1.5 3 4 3 5-1l2-7c.8-2.8 2.2-2.8 3 0l2 7c1 4 3.5 4 5 1 2-4 5-11 5-19 0-5-2-8-6-8-4 0-6 2-9 2z" fill="#fff"/></svg><span class="logo-text">DENTAL<span style="color:#7fd4d4">MARKETING PROS</span></span></div>
+        <p class="foot-about">Specialist dental marketing that attracts more patients, strengthens your reputation and grows your practice.</p>
+        <p class="compliance-note">GDC &amp; ASA-compliant marketing. We keep your campaigns within advertising guidelines.</p>
+      </div>
+      <div><h5>Services</h5><ul><li><a href="seo.html">SEO</a></li><li><a href="ppc.html">PPC Advertising</a></li><li><a href="web-design.html">Web Design</a></li><li><a href="dental-seo-sheffield.html">Location SEO</a></li></ul></div>
+      <div><h5>Company</h5><ul><li><a href="about.html">About Us</a></li><li><a href="#results">Results</a></li><li><a href="locations.html">Locations</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+      <div><h5>Contact Us</h5><ul><li>📞 <a href="tel:01302616311">01302 616311</a></li><li>✉ hello@dentalmarketingpros.co.uk</li></ul></div>
+      <div><h5>Newsletter</h5><p style="font-size:.88rem">Get tips and insights to grow your dental practice.</p><div class="news-form"><input type="email" placeholder="Your email address"><button class="btn btn-primary" style="justify-content:center">Subscribe</button></div></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Dental Marketing Pros, a trading name of Elite Talent Media LTD. All rights reserved.</span>
+      <span><a href="privacy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms &amp; Conditions</a> &nbsp;·&nbsp; <a href="cookies.html">Cookie Policy</a> &nbsp;·&nbsp; <a href="#" onclick="window.openCookieSettings&&window.openCookieSettings();return false;">Cookie settings</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var btn = document.querySelector('.menu-btn');
+    var nav = document.querySelector('nav');
+    if(!btn || !nav) return;
+    btn.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? '✕' : '☰';
+    });
+    nav.querySelectorAll('.nav-links a, .nav-cta a').forEach(function(link){
+      link.addEventListener('click', function(){
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.textContent = '☰';
+      });
+    });
+  })();
+</script>
+
+<script defer src="cookies.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+name: Daily dental article
+
+# Runs every day at 06:00 UTC. Adjust the cron as you like (it's UTC).
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:        # lets you trigger manually from the Actions tab
+    inputs:
+      day_override:
+        description: "Force a specific calendar day number (optional, for testing/backfill)"
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate today's article
+        id: gen
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LAUNCH_DATE: ${{ vars.LAUNCH_DATE }}
+          # Set repo VARIABLE AUTO_PUBLISH=true to push straight to main (no review).
+          # Leave unset/false to open a Pull Request with a Vercel preview instead.
+          AUTO_PUBLISH: ${{ vars.AUTO_PUBLISH }}
+          DAY_OVERRIDE: ${{ github.event.inputs.day_override }}
+        run: node autoblog/scripts/generate.js
+
+      - name: Anything generated?
+        id: check
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No new article (before launch, past day 90, already exists, or refused)."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # --- PATH A: review mode (default) → open a PR with a Vercel preview ---
+      - name: Open Pull Request (review mode)
+        if: steps.check.outputs.changed == 'true' && vars.AUTO_PUBLISH != 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "post: ${{ steps.gen.outputs.article_title }}"
+          branch: auto/article-${{ github.run_id }}
+          title: "Review & publish: ${{ steps.gen.outputs.article_title }}"
+          body: |
+            Auto-drafted by the daily generator. This PR adds one new article page
+            plus the matching card in resources.html and a refreshed sitemap.xml / robots.txt.
+
+            **Review checklist before merging:**
+            - [ ] Facts/figures accurate (no hallucinated stats)
+            - [ ] GDC/ASA compliant — no guaranteed-outcome or misleading claims
+            - [ ] Internal links resolve and read naturally
+            - [ ] Reads in brand voice (plain, confident, British spelling)
+
+            Merging this PR publishes the article (Vercel deploys from main).
+            A Vercel preview URL appears on this PR automatically.
+
+      # --- PATH B: auto-publish mode → commit straight to main ---
+      - name: Commit to main (auto-publish mode)
+        if: steps.check.outputs.changed == 'true' && vars.AUTO_PUBLISH == 'true'
+        run: |
+          git config user.name "DMP Autoblog"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "post: ${{ steps.gen.outputs.article_title }}"
+          git push

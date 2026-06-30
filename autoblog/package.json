@@ -1,0 +1,12 @@
+{
+  "name": "dmp-autoblog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Daily B2B dental marketing article generator for Dental Marketing Pros (static-HTML build)",
+  "type": "commonjs",
+  "scripts": {
+    "generate": "node scripts/generate.js",
+    "test:day1": "DAY_OVERRIDE=1 node scripts/generate.js"
+  },
+  "engines": { "node": ">=18" }
+}
