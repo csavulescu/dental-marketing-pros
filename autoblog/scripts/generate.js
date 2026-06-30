@@ -236,6 +236,8 @@ function renderPage(article, gen, dateISO, slug) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="theme-color" content="#0d7a7a">
 <title>${esc(gen.metaTitle)} | Dental Marketing Pros</title>
 <meta name="description" content="${escAttr(gen.metaDescription)}">
 <link rel="canonical" href="${url}">
