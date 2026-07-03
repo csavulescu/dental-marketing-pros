@@ -25,6 +25,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const rebuildResources = require("./rebuild-resources");
 
 const API_KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.MODEL || "claude-sonnet-4-6";
@@ -299,7 +300,7 @@ function insertResourceCard(article, gen, slug) {
 
 function rebuildSitemap() {
   const BASE = SITE_BASE;
-  const SKIP = ["thank-you.html"];
+  const SKIP = ["thank-you.html", "cookies.html", "privacy.html", "terms.html"];
   const files = fs.readdirSync(SITE_ROOT).filter(f => f.endsWith(".html") && !SKIP.includes(f));
   const meta = (f) => {
     if (f === "index.html") return { loc: BASE + "/", p: "1.0" };
@@ -363,7 +364,8 @@ Sitemap: ${BASE}/sitemap.xml
   fs.writeFileSync(outPath, renderPage(article, gen, dateISO, slug), "utf8");
   console.log(`✓ Wrote ${slug}.html`);
 
-  insertResourceCard(article, gen, slug);
+  rebuildResources(SITE_ROOT);
+  console.log("  ✓ Rebuilt resources.html from all articles.");
   rebuildSitemap();
 
   console.log(`  PPC angle: ${gen.ppcAngle}`);
