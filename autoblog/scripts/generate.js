@@ -96,19 +96,24 @@ STRICT REQUIREMENTS:
 - Include these internal links naturally in the body, at least once each: ${links}. Also link to ${SITE_BASE}/contact.html in the closing CTA. Use ROOT-RELATIVE hrefs only (e.g. href="seo.html", href="contact.html") — strip the ${SITE_BASE}/ prefix when you write the anchor tags.
 - COMPLIANCE: This is regulated by the UK GDC and ASA. Do NOT invent statistics, do NOT fabricate study citations, do NOT make guaranteed-outcome or misleading claims. If you reference a figure you are not certain of, phrase it qualitatively (e.g. "the majority of") rather than inventing a precise number. Never promise specific rankings, lead volumes, or revenue. Do NOT fabricate client names, testimonials, or case-study results.
 - Do NOT include the title as an H1 (the template renders it). Start with an intro <p>.
+- Do NOT use em-dashes (—) anywhere in the article; use commas or full stops instead (UK house style).
 
-BODY HTML RULES (bodyHtml field):
+BODY HTML RULES (body field):
 - Output valid HTML fragment only: use <h2>, <h3>, <p>, <ul>/<li>, <ol>/<li>, <strong>, <em>, and <a href="...">. No <h1>, no <html>/<head>/<body>, no inline styles, no class attributes, no markdown, no code fences.
 
-OUTPUT FORMAT: Respond with ONLY a single valid JSON object, no markdown fences, no preamble. Schema:
-{
-  "metaTitle": "string, <55 chars, includes the keyword naturally. Do NOT add the brand or site name — the template already appends ' | Dental Marketing Pros'.",
-  "metaDescription": "string, <155 chars, compelling, reads naturally to a human. Weave the keyword in naturally — do NOT open with the raw lowercase keyword phrase.",
-  "excerpt": "string, 1-2 sentence summary for the blog listing card and page intro",
-  "bodyHtml": "string, the full article body as an HTML fragment per the rules above. No H1.",
-  "imageAlt": "string, descriptive alt text for a hero image",
-  "ppcAngle": "string, one sentence: the single best ad-copy angle this article reveals"
-}`;
+OUTPUT FORMAT: Respond with EXACTLY this structure and nothing else, no preamble and no code fences. Use the === markers ONLY as the section separators shown below (never inside your content):
+===METATITLE===
+under 55 chars, includes the keyword naturally. Do NOT add the brand or site name (the template already appends " | Dental Marketing Pros").
+===METADESC===
+under 155 chars, compelling, reads naturally. Weave the keyword in; do NOT open with the raw lowercase keyword phrase.
+===EXCERPT===
+1 to 2 sentence summary for the blog listing card and page intro.
+===IMAGEALT===
+descriptive alt text for a hero image.
+===PPCANGLE===
+one sentence: the single best ad-copy angle this article reveals.
+===BODYHTML===
+the full article body as an HTML fragment per the BODY HTML RULES above. This section may contain double quotes, anchor tags and multiple lines, that is expected.`;
 }
 
 async function callAnthropic(prompt) {
@@ -135,8 +140,24 @@ async function callAnthropic(prompt) {
   }
   const block = (data.content || []).find(b => b.type === "text");
   if (!block) throw new Error("No text block in Anthropic response: " + JSON.stringify(data).slice(0, 400));
-  const clean = block.text.trim().replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
-  return JSON.parse(clean);
+  const text = block.text.trim();
+  // Delimiter format (robust to double quotes / links / newlines in the HTML body)
+  const grab = (name) => {
+    const m = text.match(new RegExp("===\\s*" + name + "\\s*===([\\s\\S]*?)(?====\\s*[A-Z]+\\s*===|$)"));
+    return m ? m[1].trim() : "";
+  };
+  const gen = {
+    metaTitle: grab("METATITLE"),
+    metaDescription: grab("METADESC"),
+    excerpt: grab("EXCERPT"),
+    imageAlt: grab("IMAGEALT"),
+    ppcAngle: grab("PPCANGLE"),
+    bodyHtml: grab("BODYHTML")
+  };
+  if (!gen.bodyHtml || !gen.metaTitle) {
+    throw new Error("Malformed generator output (missing sections): " + text.slice(0, 300));
+  }
+  return gen;
 }
 
 // strip a stray leading H1 / code fence the model may have added
