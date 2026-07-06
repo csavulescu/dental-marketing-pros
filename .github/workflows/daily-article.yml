@@ -78,6 +78,24 @@ jobs:
           git commit -m "post: ${{ steps.gen.outputs.article_title }}"
           git push
 
+      # --- Email that the article is live (auto-publish mode; PR merge has its own workflow) ---
+      - name: Email article live (Resend, auto-publish)
+        if: steps.check.outputs.changed == 'true' && vars.AUTO_PUBLISH == 'true'
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          TITLE: ${{ steps.gen.outputs.article_title }}
+          URL: https://dentalmarketingpros.co.uk/${{ steps.gen.outputs.article_path }}
+        run: |
+          if [ -z "$RESEND_API_KEY" ]; then echo "No RESEND_API_KEY set, skipping email."; exit 0; fi
+          for i in $(seq 1 20); do c=$(curl -s -o /dev/null -w '%{http_code}' "$URL" || echo 000); echo "live check $i: $c"; [ "$c" = "200" ] && break; sleep 15; done
+          payload=$(jq -n --arg t "$TITLE" --arg u "$URL" '{
+            from: "Dental Marketing Pros <onboarding@resend.dev>",
+            to: ["cristian@uclimb.co.uk"],
+            subject: ("New blog live: " + $t),
+            html: ("Your new article is now live on the site:<br><br><strong>" + $t + "</strong><br><a href=\"" + $u + "\">" + $u + "</a>")
+          }')
+          curl -s -X POST https://api.resend.com/emails -H "Authorization: Bearer $RESEND_API_KEY" -H "Content-Type: application/json" -d "$payload" >/dev/null && echo "Live email sent: $TITLE"
+
       # --- Email if the run failed (needs RESEND_API_KEY secret) ---
       - name: Email on failure (Resend)
         if: failure()
