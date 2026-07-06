@@ -77,3 +77,19 @@ jobs:
           git add -A
           git commit -m "post: ${{ steps.gen.outputs.article_title }}"
           git push
+
+      # --- Email if the run failed (needs RESEND_API_KEY secret) ---
+      - name: Email on failure (Resend)
+        if: failure()
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$RESEND_API_KEY" ]; then echo "No RESEND_API_KEY set, skipping email."; exit 0; fi
+          payload=$(jq -n --arg u "$RUN_URL" '{
+            from: "Dental Marketing Pros <onboarding@resend.dev>",
+            to: ["cristian@uclimb.co.uk"],
+            subject: "Autoblog run FAILED",
+            html: ("The daily dental article generator failed, so no article was produced today.<br><br><a href=\"" + $u + "\">View the failed run</a>")
+          }')
+          curl -s -X POST https://api.resend.com/emails -H "Authorization: Bearer $RESEND_API_KEY" -H "Content-Type: application/json" -d "$payload" >/dev/null && echo "Failure email sent."

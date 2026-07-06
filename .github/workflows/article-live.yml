@@ -1,0 +1,62 @@
+name: Article live email
+
+# Fires when an autoblog PR is merged (article goes to main → Vercel deploys).
+# Confirms the page is actually live, then emails the blog name + link.
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  notify:
+    # only merged autoblog PRs (branch name starts with auto/article-)
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'auto/article-')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gather article details
+        id: info
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_NUM: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          # PR title is "Review & publish: <blog name>" → strip the prefix
+          TITLE="${PR_TITLE#Review & publish: }"
+          # the new article is the added top-level .html (not resources.html)
+          FILE=$(gh pr view "$PR_NUM" --repo "$REPO" --json files --jq '.files[].path' \
+                 | grep -E '^[a-z0-9-]+\.html$' | grep -vE '^resources\.html$' | head -1)
+          {
+            echo "title=$TITLE"
+            echo "url=https://dentalmarketingpros.co.uk/$FILE"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Wait until the page is live on Vercel
+        env:
+          URL: ${{ steps.info.outputs.url }}
+        run: |
+          for i in $(seq 1 20); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$URL" || echo 000)
+            echo "attempt $i: $URL -> $code"
+            [ "$code" = "200" ] && exit 0
+            sleep 15
+          done
+          echo "Page did not return 200 within timeout; emailing anyway."
+
+      - name: Email that the article is live (Resend)
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          TITLE: ${{ steps.info.outputs.title }}
+          URL: ${{ steps.info.outputs.url }}
+        run: |
+          if [ -z "$RESEND_API_KEY" ]; then echo "No RESEND_API_KEY set, skipping email."; exit 0; fi
+          payload=$(jq -n --arg t "$TITLE" --arg u "$URL" '{
+            from: "Dental Marketing Pros <onboarding@resend.dev>",
+            to: ["cristian@uclimb.co.uk"],
+            subject: ("New blog live: " + $t),
+            html: ("Your new article is now live on the site:<br><br><strong>" + $t + "</strong><br><a href=\"" + $u + "\">" + $u + "</a>")
+          }')
+          curl -s -X POST https://api.resend.com/emails -H "Authorization: Bearer $RESEND_API_KEY" -H "Content-Type: application/json" -d "$payload" >/dev/null && echo "Live email sent for: $TITLE"
