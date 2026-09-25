@@ -78,9 +78,31 @@ function readMinutes(html) {
   return Math.max(3, Math.round(words / 200));
 }
 
+// ---- existing articles most related to today's topic (for in-body links) ----
+const STOP = new Set(("a an and are as at be by can do does for from get how in into is it its of on or our the their them they this to what when where which who why will with without you your dental dentist dentists practice practices uk guide marketing").split(" "));
+const toks = s => String(s).toLowerCase().replace(/[^a-z0-9 ]+/g, " ").split(/\s+/).filter(w => w.length > 2 && !STOP.has(w)).map(w => w.replace(/([^s])s$/, "$1"));
+function relatedExisting(article, n = 4) {
+  const want = new Set([...toks(article.title), ...toks(article.keyword)]);
+  const out = [];
+  for (const f of fs.readdirSync(SITE_ROOT).filter(f => f.endsWith(".html"))) {
+    const html = fs.readFileSync(path.join(SITE_ROOT, f), "utf8");
+    if (!/"@type"\s*:\s*"BlogPosting"/.test(html)) continue;
+    const h = (html.match(/"headline"\s*:\s*"([^"]+)"/) || [])[1];
+    if (!h) continue;
+    const t = new Set(toks(h));
+    let inter = 0; for (const w of t) if (want.has(w)) inter++;
+    if (inter) out.push({ file: f, headline: h, s: inter / Math.sqrt(t.size * want.size || 1) });
+  }
+  return out.sort((a, b) => b.s - a.s || a.file.localeCompare(b.file)).slice(0, n);
+}
+
 // ---- prompt (asks for HTML body, not markdown) ----
 function buildPrompt(article) {
   const links = article.links.map(l => `${SITE_BASE}${l}`).join(", ");
+  const rel = relatedExisting(article);
+  const relLine = rel.length
+    ? `\n- Also link naturally to 2 or 3 of these existing articles where they genuinely help the reader (use the exact filename as the href, descriptive anchor text, never "click here"): ${rel.map(r => `${r.file} ("${r.headline}")`).join("; ")}.`
+    : "";
   return `You are a senior B2B content writer for Dental Marketing Pros, a UK dental marketing agency that serves dental practice owners across South Yorkshire and North Derbyshire. Your readers are DENTISTS and PRACTICE OWNERS researching how to grow their own practices — not patients.
 
 Write a complete, publish-ready article.
@@ -93,7 +115,7 @@ STRICT REQUIREMENTS:
 - 1,200–1,800 words of genuinely useful, specific, non-generic advice.
 - Audience: UK dental practice owners. British spelling. Professional, plain, confident tone — never hypey.
 - Structure: a strong intro that names the problem, then H2/H3 sections following problem → why it happens → the fix → how a specialist agency does it better. End with a soft consultation CTA (never hard-sell).
-- Include these internal links naturally in the body, at least once each: ${links}. Also link to ${SITE_BASE}/contact.html in the closing CTA. Use ROOT-RELATIVE hrefs only (e.g. href="seo.html", href="contact.html") — strip the ${SITE_BASE}/ prefix when you write the anchor tags.
+- Include these internal links naturally in the body, at least once each: ${links}. Also link to ${SITE_BASE}/contact.html in the closing CTA. Use ROOT-RELATIVE hrefs only (e.g. href="seo.html", href="contact.html") — strip the ${SITE_BASE}/ prefix when you write the anchor tags.${relLine}
 - COMPLIANCE: This is regulated by the UK GDC and ASA. Do NOT invent statistics, do NOT fabricate study citations, do NOT make guaranteed-outcome or misleading claims. If you reference a figure you are not certain of, phrase it qualitatively (e.g. "the majority of") rather than inventing a precise number. Never promise specific rankings, lead volumes, or revenue. Do NOT fabricate client names, testimonials, or case-study results.
 - Do NOT include the title as an H1 (the template renders it). Start with an intro <p>.
 - Do NOT use em-dashes (—) anywhere in the article; use commas or full stops instead (UK house style).
@@ -103,7 +125,7 @@ BODY HTML RULES (body field):
 
 OUTPUT FORMAT: Respond with EXACTLY this structure and nothing else, no preamble and no code fences. Use the === markers ONLY as the section separators shown below (never inside your content):
 ===METATITLE===
-under 55 chars, includes the keyword naturally. Do NOT add the brand or site name (the template already appends " | Dental Marketing Pros").
+under 55 chars, includes the keyword naturally. Do NOT add the brand or site name (the template appends it only when there is room).
 ===METADESC===
 under 155 chars, compelling, reads naturally. Weave the keyword in; do NOT open with the raw lowercase keyword phrase.
 ===EXCERPT===
@@ -172,13 +194,13 @@ function tidyBody(html) {
 const NAV = `<header>
   <div class="wrap">
     <nav>
-      <a href="index.html" class="logo">
+      <a href="/" class="logo">
         <svg class="logo-mark" viewBox="0 0 40 40"><path d="M20 6c-5 0-7-2-11-2C5 4 3 7 3 12c0 8 3 15 5 19 1.5 3 4 3 5-1l2-7c.8-2.8 2.2-2.8 3 0l2 7c1 4 3.5 4 5 1 2-4 5-11 5-19 0-5-2-8-6-8-4 0-6 2-9 2z" fill="#0d7a7a"/></svg>
         <span class="logo-text">DENTAL<span>MARKETING PROS</span></span>
       </a>
       <div class="nav-menu">
         <div class="nav-links">
-          <a href="index.html">Home</a>
+          <a href="/">Home</a>
           <a href="about.html">About Us</a>
           <div class="has-mega">
             <a href="services.html" class="mega-trigger">Services <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></a>
@@ -189,7 +211,7 @@ const NAV = `<header>
               <a class="mega-card" href="locations.html"><span class="mega-ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><span class="mega-tx"><b>Locations</b><small>SEO, PPC &amp; web by town</small></span></a>
             </div><div class="mega-foot"><span>Specialist marketing, dentists only</span><a href="services.html" class="mega-all">All services →</a></div></div></div>
           </div>
-          <a href="index.html#results">Results</a>
+          <a href="/#results">Results</a>
           <a href="locations.html">Locations</a>
           <a href="resources.html" class="active">Resources</a>
           <a href="contact.html">Contact</a>
@@ -225,6 +247,12 @@ const FOOTER = `<footer>
 </script>
 <script defer src="cookies.js"></script>`;
 
+// brand suffix only when the full title still fits in ~60 chars
+function pageTitle(t) {
+  const full = `${t} | Dental Marketing Pros`;
+  return full.length <= 60 ? full : t;
+}
+
 function renderPage(article, gen, dateISO, slug) {
   const url = `${SITE_BASE}/${slug}.html`;
   const mins = readMinutes(gen.bodyHtml);
@@ -237,7 +265,15 @@ function renderPage(article, gen, dateISO, slug) {
         "description": gen.metaDescription,
         "datePublished": dateISO,
         "dateModified": dateISO,
-        "author": { "@type": "Organization", "name": "Dental Marketing Pros" },
+        "author": {
+          "@type": "Person",
+          "@id": SITE_BASE + "/about.html#cristian-savulescu",
+          "name": "Cristian Savulescu",
+          "jobTitle": "Founder",
+          "url": SITE_BASE + "/about.html#cristian-savulescu",
+          "worksFor": { "@type": "Organization", "name": "Dental Marketing Pros", "url": SITE_BASE + "/" }
+        },
+        "image": SITE_BASE + "/hero.jpg",
         "publisher": { "@type": "Organization", "name": "Dental Marketing Pros", "legalName": "Elite Talent Media LTD" },
         "mainEntityOfPage": url,
         "url": url
@@ -260,7 +296,7 @@ function renderPage(article, gen, dateISO, slug) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="theme-color" content="#0d7a7a">
-<title>${esc(gen.metaTitle)} | Dental Marketing Pros</title>
+<title>${esc(pageTitle(gen.metaTitle))}</title>
 <meta name="description" content="${escAttr(gen.metaDescription)}">
 <link rel="canonical" href="${url}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -272,7 +308,7 @@ function renderPage(article, gen, dateISO, slug) {
 <body>
 ${NAV}
 <div class="page-hero"><div class="wrap">
-  <div class="crumb"><a href="index.html">Home</a> / <a href="resources.html">Resources</a> / ${esc(article.title)}</div>
+  <div class="crumb"><a href="/">Home</a> / <a href="resources.html">Resources</a> / ${esc(article.title)}</div>
   <span class="eyebrow" style="margin-top:14px;display:block">Resources · ${mins} min read</span>
   <h1 style="margin-top:8px">${esc(article.title)}</h1>
   <p>${esc(gen.excerpt)}</p>
@@ -366,17 +402,31 @@ Sitemap: ${BASE}/sitemap.xml
   console.log(`  ✓ Rebuilt sitemap.xml (${entries.length} URLs) and robots.txt.`);
 }
 
+// sitewide pass: related links, author, OG tags, hub "guides" blocks,
+// resources.html and sitemap.xml (see seo-maintain.js). Runs on every
+// invocation, even when no article is due, so the site stays maintained
+// after the calendar ends.
+function runSeoPass(reason) {
+  process.env.SITE_ROOT = SITE_ROOT;
+  require("./seo-maintain")();
+  if (reason && process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `article_path=\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `article_title=${reason}\n`);
+  }
+}
+
 (async () => {
   const calendar = JSON.parse(fs.readFileSync(path.join(AUTOBLOG_DIR, "calendar.json"), "utf8"));
   const day = dayNumber();
+  const MAINT = "sitewide SEO maintenance (no new article)";
 
   if (day < 1) { console.log(`Day ${day} is before launch (${LAUNCH_DATE}). Nothing to do.`); return; }
   const article = calendar.articles.find(a => a.day === day);
-  if (!article) { console.log(`No calendar entry for day ${day} (calendar ends at day ${calendar.articles.length}). Nothing to do.`); return; }
+  if (!article) { console.log(`No calendar entry for day ${day} (calendar ends at day ${calendar.articles.length}). Running SEO pass only.`); runSeoPass(MAINT); return; }
 
   const slug = slugify(article.title);
   const outPath = path.join(SITE_ROOT, `${slug}.html`);
-  if (fs.existsSync(outPath)) { console.log(`Already exists: ${slug}.html. Skipping.`); return; }
+  if (fs.existsSync(outPath)) { console.log(`Already exists: ${slug}.html. Running SEO pass only.`); runSeoPass(MAINT); return; }
 
   console.log(`Day ${day}: generating "${article.title}" (${MODEL})…`);
   const gen = await callAnthropic(buildPrompt(article));
@@ -385,9 +435,7 @@ Sitemap: ${BASE}/sitemap.xml
   fs.writeFileSync(outPath, renderPage(article, gen, dateISO, slug), "utf8");
   console.log(`✓ Wrote ${slug}.html`);
 
-  rebuildResources(SITE_ROOT);
-  console.log("  ✓ Rebuilt resources.html from all articles.");
-  rebuildSitemap();
+  runSeoPass();
 
   console.log(`  PPC angle: ${gen.ppcAngle}`);
   if (process.env.GITHUB_OUTPUT) {
