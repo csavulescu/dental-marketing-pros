@@ -1,0 +1,52 @@
+name: SEO maintenance
+
+# Re-applies the sitewide SEO pass (related links, author, OG tags, hub guide
+# blocks, titles/descriptions, resources.html, sitemap.xml) whenever pages or
+# the SEO scripts change on main, and on demand from the Actions tab.
+# The daily article workflow runs the same pass itself.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "*.html"
+      - "autoblog/scripts/**"
+      - "autoblog/seo-overrides.json"
+      - "autoblog/calendar.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: seo-maintain
+  cancel-in-progress: false
+
+jobs:
+  maintain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run SEO pass
+        run: node autoblog/scripts/seo-maintain.js
+
+      - name: Commit changes (if any)
+        run: |
+          if git diff --quiet; then
+            echo "Nothing to update."
+            exit 0
+          fi
+          git config user.name "DMP Autoblog"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(seo-maintain): sitewide SEO pass"
+          git pull --rebase origin main
+          git push
