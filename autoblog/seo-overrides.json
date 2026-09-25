@@ -1,0 +1,131 @@
+{
+  "_note": "Hand-set <title> and meta description overrides, applied by autoblog/scripts/seo-maintain.js. Titles here are used exactly as written (no brand suffix added). Keep titles <= 60 chars and descriptions 120-160 chars.",
+  "pages": {
+    "locations.html": {
+      "title": "Dental Marketing Across South Yorkshire & North Derbyshire"
+    },
+    "advertising-finance-payment-plans-for-dental-treatment.html": {
+      "title": "Advertising Dental Finance Plans: Rules UK Practices Must Know"
+    },
+    "content-marketing-for-dental-practices-a-beginners-strategy.html": {
+      "title": "Content Marketing for Dental Practices: Beginner's Guide",
+      "description": "A beginner's guide to content marketing for dental practices: where to start, what to publish and how to turn useful content into new patient enquiries."
+    },
+    "dental-website-navigation-structuring-for-treatments-locations.html": {
+      "title": "Dental Website Navigation for Treatments & Locations",
+      "description": "How a clear dental website navigation structure helps patients find treatments and locations faster, and helps your practice rank in more local searches."
+    },
+    "instagram-for-dental-practices-a-content-plan-that-books-appointments.html": {
+      "title": "Instagram for Dentists: A Content Plan That Books Patients",
+      "description": "Turn Instagram followers into patients. A practical guide for UK dental practices on building a content plan that drives real, compliant bookings."
+    },
+    "long-tail-keywords-that-bring-high-intent-dental-patients.html": {
+      "title": "Long-Tail Dental Keywords That Attract Ready Patients"
+    },
+    "paid-social-for-dentists-a-beginners-meta-ads-guide.html": {
+      "title": "Meta Ads for Dentists: A Beginner's Paid Social Guide"
+    },
+    "ai-dental-marketing-using-it-without-breaking-the-rules.html": {
+      "description": "How to use AI in your dental marketing without falling foul of GDC or ASA rules. Practical, compliance-first guidance for UK practice owners."
+    },
+    "attracting-high-value-implant-cosmetic-patients-online.html": {
+      "description": "How to market dental implants and cosmetic treatments online to the right patients, with strategies that attract high-value cases and stay compliant."
+    },
+    "claims-you-legally-cant-make-in-dental-marketing-uk.html": {
+      "description": "UK dental marketing claims rules are strict. Which phrases get practices into trouble with the GDC and ASA, and how to market compliantly without losing impact."
+    },
+    "cost-per-new-patient-how-to-actually-measure-your-marketing-roi.html": {
+      "description": "How to calculate cost per new patient for your dental marketing, prove what your spend is returning and make smarter budget decisions across channels."
+    },
+    "dayparting-scheduling-dental-ads-around-your-opening-hours.html": {
+      "description": "Stop paying for clicks that arrive when your phones are off. How dental Google Ads scheduling and dayparting help you get more from every pound you spend."
+    },
+    "dental-website-redesign-signs-its-time-and-what-to-expect.html": {
+      "description": "Is your dental website costing you patients? The clear signs you need a dental website redesign, and what the process looks like with a specialist agency."
+    },
+    "designing-a-dental-website-for-nervous-patients.html": {
+      "description": "Help anxious patients feel safe before they book. How to design a dental website for nervous patients that builds trust and turns browsers into bookings."
+    },
+    "employee-advocacy-turning-your-dental-team-into-marketers.html": {
+      "description": "How dental team social media advocacy can grow your practice organically, with practical steps for UK practice owners to turn staff into trusted voices."
+    },
+    "marketing-for-orthodontics-clear-aligners-a-practice-guide.html": {
+      "description": "A practical guide to orthodontic and clear aligner marketing for UK dental practices: how to attract more aligner patients profitably and compliantly."
+    },
+    "multi-location-dental-seo-ranking-across-several-towns.html": {
+      "description": "Running practices in several towns? How multi-location dental SEO works, why generic tactics fail, and what a specialist agency does differently."
+    },
+    "negative-reviews-how-dentists-should-respond-compliantly.html": {
+      "description": "Responding to reviews the wrong way can cost you patients and invite GDC scrutiny. How UK practice owners should handle negative feedback compliantly."
+    },
+    "patient-testimonials-before-after-photos-the-gdc-rules-explained.html": {
+      "description": "GDC rules on patient testimonials and before/after photos, explained. What UK dental practices must know to stay compliant and still market effectively."
+    },
+    "social-media-for-dentists-what-actually-drives-enquiries-not-vanity-me.html": {
+      "description": "Which social media activity actually drives dental enquiries, not just likes. Practical advice for UK practice owners who want measurable results."
+    },
+    "why-your-dental-enquiries-arent-turning-into-booked-appointments.html": {
+      "description": "Why dental enquiries stall before they become bookings, and what your practice can change to turn more interest into confirmed appointments."
+    },
+    "dental-marketing-sheffield.html": {
+      "description": "Specialist dental marketing in Sheffield (S1–S20): local SEO, Google Ads and conversion-focused web design for Sheffield practices. Book a free call."
+    },
+    "dental-marketing-doncaster.html": {
+      "description": "Specialist dental marketing in Doncaster (DN1–DN12): local SEO, Google Ads and conversion-focused web design for Doncaster practices. Book a free call."
+    },
+    "dental-marketing-rotherham.html": {
+      "description": "Specialist dental marketing in Rotherham (S60–S66): local SEO, Google Ads and conversion-focused web design for Rotherham practices. Book a free call."
+    },
+    "dental-marketing-barnsley.html": {
+      "description": "Specialist dental marketing in Barnsley (S70–S75): local SEO, Google Ads and conversion-focused web design for Barnsley practices. Book a free call."
+    },
+    "dental-marketing-chesterfield.html": {
+      "description": "Specialist dental marketing in Chesterfield (S40–S45): local SEO, Google Ads and conversion-focused web design for Chesterfield practices."
+    },
+    "dental-ppc-sheffield.html": {
+      "description": "Dental Google Ads management in Sheffield from £350/month per campaign. Fast, tracked patient enquiries for practices across the S1–S20 postcodes."
+    },
+    "dental-ppc-doncaster.html": {
+      "description": "Dental Google Ads management in Doncaster from £350/month per campaign. Fast, tracked patient enquiries for practices across the DN1–DN12 postcodes."
+    },
+    "dental-ppc-rotherham.html": {
+      "description": "Dental Google Ads management in Rotherham from £350/month per campaign. Fast, tracked patient enquiries for practices across the S60–S66 postcodes."
+    },
+    "dental-ppc-barnsley.html": {
+      "description": "Dental Google Ads management in Barnsley from £350/month per campaign. Fast, tracked patient enquiries for practices across the S70–S75 postcodes."
+    },
+    "dental-ppc-chesterfield.html": {
+      "description": "Dental Google Ads management in Chesterfield from £350/month per campaign. Fast, tracked patient enquiries for practices across S40–S45."
+    },
+    "dental-seo-sheffield.html": {
+      "description": "Specialist dental SEO for Sheffield practices. We help dentists across Sheffield rank in the map pack and attract more local patients. Free audit."
+    },
+    "dental-seo-doncaster.html": {
+      "description": "Specialist dental SEO for Doncaster practices. We help dentists across the DN postcodes rank in the map pack and win more local patients. Free audit."
+    },
+    "dental-seo-rotherham.html": {
+      "description": "Specialist dental SEO for Rotherham practices. We help dentists across S60–S66 rank in the map pack and win more local patients. Free audit."
+    },
+    "dental-seo-barnsley.html": {
+      "description": "Specialist dental SEO for Barnsley practices. We help dentists across S70–S75 rank in the map pack and win more local patients. Free audit."
+    },
+    "dental-seo-chesterfield.html": {
+      "description": "Specialist dental SEO for Chesterfield and north Derbyshire practices. Rank in the map pack and win more local patients. Free audit."
+    },
+    "dental-web-design-sheffield.html": {
+      "description": "Conversion-focused dental web design in Sheffield from £150/month over 12 months. Modern, fast, compliant sites, typically live in 4–6 weeks."
+    },
+    "dental-web-design-doncaster.html": {
+      "description": "Conversion-focused dental web design in Doncaster from £150/month over 12 months. Modern, fast, compliant sites, typically live in 4–6 weeks."
+    },
+    "dental-web-design-rotherham.html": {
+      "description": "Conversion-focused dental web design in Rotherham from £150/month over 12 months. Modern, fast, compliant sites, typically live in 4–6 weeks."
+    },
+    "dental-web-design-barnsley.html": {
+      "description": "Conversion-focused dental web design in Barnsley from £150/month over 12 months. Modern, fast, compliant sites, typically live in 4–6 weeks."
+    },
+    "dental-web-design-chesterfield.html": {
+      "description": "Conversion-focused dental web design in Chesterfield from £150/month over 12 months. Modern, fast, compliant sites, typically live in 4–6 weeks."
+    }
+  }
+}

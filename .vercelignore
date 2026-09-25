@@ -1,0 +1,7 @@
+# Keep build tooling and repo internals off the public site
+autoblog
+.github
+.gitignore
+.vercelignore
+README.md
+*.log
