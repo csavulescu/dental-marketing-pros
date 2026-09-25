@@ -2,7 +2,6 @@
 User-agent: *
 Allow: /
 
-# Block nothing of value to search engines
 Disallow: /.vercel/
 
 Sitemap: https://dentalmarketingpros.co.uk/sitemap.xml
