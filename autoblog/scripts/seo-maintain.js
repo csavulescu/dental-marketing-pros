@@ -276,7 +276,7 @@ function normaliseNav(page) {
   if (page.html.includes("<!-- dmp:managed-page")) return; // rendered by build-pages.js
   let html = page.html;
   html = html.replace(/(<div class="mega-inner">)[\s\S]*?(<\/div>\s*<div class="mega-foot">)/, (m, a, b) => `${a}\n${megaInner("  ")}\n${b}`);
-  html = html.split('<a href="/#results">Results</a>').join('<a href="free-seo-audit.html">Free SEO Audit</a>');
+  html = html.replace(/<a href="\/?#results">Results<\/a>/g, '<a href="free-seo-audit.html">Free SEO Audit</a>');
   html = html.split('<a href="dental-seo-sheffield.html">Location SEO</a>').join('<a href="geo.html">GEO &amp; AI Search</a>');
   html = html.replace(/<a href="contact\.html"( class="btn[^"]*"[^>]*)>([^<]*[Aa]udit[^<]*)<\/a>/g, '<a href="free-seo-audit.html"$1>$2</a>');
   if (page.file === "contact.html" && !html.includes("<option>AI website</option>")) {
