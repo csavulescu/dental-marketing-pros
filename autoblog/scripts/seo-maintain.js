@@ -41,7 +41,7 @@ const AUTHOR = {
   name: "Cristian Savulescu",
   jobTitle: "Founder",
   anchor: "cristian-savulescu",
-  bio: "Cristian Savulescu is the founder of Dental Marketing Pros. He leads SEO and Google Ads strategy for dental practices across South Yorkshire and North Derbyshire, with compliance built in from the start."
+  bio: "Cristian Savulescu is the founder of Dental Marketing Pros and an SEO and Google Ads specialist with over 10 years' experience. He has worked with many different types of businesses, including some Fortune 500 companies, and now leads SEO and Google Ads strategy for dental practices across South Yorkshire and North Derbyshire."
 };
 const AUTHOR_URL = `${BASE}/about.html#${AUTHOR.anchor}`;
 
