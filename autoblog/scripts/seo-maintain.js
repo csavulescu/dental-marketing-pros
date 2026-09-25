@@ -19,7 +19,10 @@
  *   5. Service / town / hub pages: a "Guides" block linking into the articles;
  *      homepage: the 3 latest articles.
  *   6. One-off content additions from content-migrations.js (run once each).
- * Then rebuilds resources.html and sitemap.xml (real lastmod dates).
+ *   7. Sitewide menu: canonical Services mega menu, "Free SEO Audit" nav link,
+ *      audit CTAs pointed at free-seo-audit.html, new-services blocks.
+ * Before all that it publishes due managed pages (build-pages.js, max 3 new a day);
+ * afterwards it rebuilds resources.html, sitemap.xml and llms.txt.
  *
  * Usage:  node autoblog/scripts/seo-maintain.js [SITE_ROOT]
  */
@@ -28,6 +31,7 @@ const path = require("path");
 const { execFileSync } = require("child_process");
 const rebuildResources = require("./rebuild-resources");
 const applyContentMigrations = require("./content-migrations");
+const { buildPages, megaInner } = require("./build-pages");
 
 const SITE_ROOT = process.env.SITE_ROOT || (require.main === module && process.argv[2]) || path.join(__dirname, "..", "..");
 const AUTOBLOG_DIR = path.join(__dirname, "..");
@@ -48,7 +52,7 @@ const AUTHOR_URL = `${BASE}/about.html#${AUTHOR.anchor}`;
 const NON_INDEX = ["thank-you.html"];
 const SITEMAP_SKIP = ["thank-you.html", "cookies.html", "privacy.html", "terms.html"];
 const TOWNS_SY = ["sheffield", "doncaster", "rotherham", "barnsley", "chesterfield"];
-const TOWNS_EXP = ["wakefield", "leeds", "huddersfield"];
+const TOWNS_EXP = ["wakefield", "leeds", "huddersfield", "worksop", "mansfield", "dewsbury", "pontefract", "wetherby", "nottingham"];
 
 // ---------- small helpers ----------
 const decode = s => String(s)
@@ -182,9 +186,14 @@ function pickForPage(file, articles) {
   if (file === "web-design.html") return { title: "Dental website guides", list: P("Web").slice(0, 6) };
   if (file === "services.html") return { title: "Guides from our resources", list: uniq([...P("Money").slice(0, 3), ...P("Compliance").slice(0, 3)]) };
   if (file === "about.html") return { title: "Compliance guides we've written", list: P("Compliance").slice(0, 3) };
+  if (file === "geo.html") return { title: "GEO & AI search guides", list: P("GEO").slice(0, 6) };
+  if (file === "ai-websites.html") return { title: "Dental website guides", list: P("Web").slice(0, 3) };
+  if (file === "free-seo-audit.html") return null;
+  const g = file.match(/^dental-geo-([a-z]+)\.html$/);
+  if (g) return { title: "GEO & AI search guides", list: P("GEO").slice(0, 3) };
   if (file === "locations.html") {
     const list = uniq(TOWNS_EXP.flatMap(t => townArts(t)));
-    return { title: "Local market guides: Wakefield, Leeds & Huddersfield", list: list.slice(0, 12) };
+    return { title: "Local market guides beyond South Yorkshire", list: list.slice(0, 12) };
   }
   let m = file.match(/^dental-(seo|ppc|web-design)-([a-z]+)\.html$/);
   if (m && TOWNS_SY.includes(m[2])) {
@@ -260,6 +269,90 @@ function byline(a) {
   const pub = a.datePublished ? `Published ${fmtDate(a.datePublished)}` : "";
   const upd = a.dateModified && a.dateModified !== a.datePublished ? ` · Updated ${fmtDate(a.dateModified)}` : "";
   return `<p class="byline" style="margin:10px 0 14px;font-size:.9rem;color:var(--slate)">By <a href="about.html#${AUTHOR.anchor}">${AUTHOR.name}</a>, ${AUTHOR.jobTitle} · ${pub}${upd}</p>`;
+}
+
+// ---------- sitewide menu + service promotion ----------
+function normaliseNav(page) {
+  if (page.html.includes("<!-- dmp:managed-page")) return; // rendered by build-pages.js
+  let html = page.html;
+  html = html.replace(/(<div class="mega-inner">)[\s\S]*?(<\/div>\s*<div class="mega-foot">)/, (m, a, b) => `${a}\n${megaInner("  ")}\n${b}`);
+  html = html.split('<a href="/#results">Results</a>').join('<a href="free-seo-audit.html">Free SEO Audit</a>');
+  html = html.split('<a href="dental-seo-sheffield.html">Location SEO</a>').join('<a href="geo.html">GEO &amp; AI Search</a>');
+  html = html.replace(/<a href="contact\.html"( class="btn[^"]*"[^>]*)>([^<]*[Aa]udit[^<]*)<\/a>/g, '<a href="free-seo-audit.html"$1>$2</a>');
+  if (page.file === "contact.html" && !html.includes("<option>AI website</option>")) {
+    html = html.replace("<option>Web Design</option>", () => "<option>Web Design</option>\n              <option>GEO / AI search</option>\n              <option>AI website</option>\n              <option>Free SEO audit</option>");
+  }
+  page.html = html;
+}
+
+const NEW_SERVICES = [
+  ["geo.html", "GEO &amp; AI search", "Get your practice recommended when patients ask ChatGPT, Google AI Overviews and other AI assistants for a dentist. From £450/month.", "Explore GEO"],
+  ["ai-websites.html", "AI websites", "A managed, professional practice website with no upfront cost. £50/month, with hosting, domain, SSL and content changes included.", "See AI websites"],
+  ["free-seo-audit.html", "Free SEO audit", "Send us your website and we'll put together an overview audit with clear, actionable advice. Free, no obligation.", "Get your free audit"]
+];
+function newServicesBlock() {
+  const cards = NEW_SERVICES.map(([href, h, p, more]) =>
+`      <a class="card" href="${href}" style="display:block">
+        ${CARD_IC}
+        <h3>${h}</h3>
+        <p>${p}</p>
+        <span class="more">${more} →</span>
+      </a>`).join("\n");
+  return block("newservices", `<div class="wrap"><section>
+    <div class="sec-head"><span class="eyebrow">New from Dental Marketing Pros</span><h2>AI search, AI websites and a free audit</h2></div>
+    <div class="cards">
+${cards}
+    </div>
+  </section></div>`);
+}
+function setNewServices(page) {
+  const marker = { "index.html": "<!-- RESULTS -->", "services.html": "<!-- SECONDARY SERVICES GRID -->" }[page.file];
+  if (!marker) return;
+  let html = stripBlock(page.html, "newservices");
+  if (html.includes(marker)) html = html.replace(marker, () => newServicesBlock() + "\n" + marker);
+  page.html = html;
+}
+function setAiWebsiteCrossLink(page) {
+  const m = page.file.match(/^dental-web-design-([a-z]+)\.html$/);
+  if (!m || !TOWNS_SY.includes(m[1])) return;
+  const town = m[1][0].toUpperCase() + m[1].slice(1);
+  let html = stripBlock(page.html, "aisites");
+  const inner = `<div class="wrap"><section style="padding-top:0">
+    <div class="panel" style="display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between">
+      <div style="max-width:640px"><span class="eyebrow">Prefer no upfront cost?</span>
+      <h3 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:1.3rem;margin:8px 0 8px">AI websites for ${town} practices, £50/month</h3>
+      <p style="color:var(--slate);margin:0">A managed presentation or lead-generation website built with AI to your brief. No upfront cost, with hosting, domain, SSL, backups and content changes included.</p></div>
+      <a href="ai-websites.html" class="btn btn-primary">See AI websites</a>
+    </div>
+  </section></div>`;
+  html = insertBeforeCta(html, block("aisites", inner));
+  page.html = html;
+}
+
+function writeLlmsTxt(pages, articles) {
+  const line = (f, name, desc) => `- [${name}](${BASE}/${f === "index.html" ? "" : f}): ${desc}`;
+  const titleOf = f => decode((pages[f] && pages[f].title) || f).replace(/ \| Dental Marketing Pros$/, "");
+  const core = ["index.html", "seo.html", "ppc.html", "web-design.html", "geo.html", "ai-websites.html", "free-seo-audit.html", "services.html", "locations.html", "about.html", "contact.html"]
+    .filter(f => pages[f]).map(f => line(f, titleOf(f), pages[f].metaDescription || ""));
+  const towns = Object.keys(pages).filter(f => /^dental-(marketing|seo|ppc|web-design|geo)-[a-z]+\.html$/.test(f) && !pages[f].isArticle).sort()
+    .map(f => line(f, titleOf(f), pages[f].metaDescription || ""));
+  const guides = [...articles].sort((a, b) => (b.datePublished || "").localeCompare(a.datePublished || "") || a.file.localeCompare(b.file))
+    .map(a => line(a.file, decode(a.headline), decode(a.description)));
+  const txt = `# Dental Marketing Pros
+
+> Specialist dental marketing agency (a trading name of Elite Talent Media LTD) based in South Yorkshire, UK. We work only with dental practices, offering dental SEO, Google Ads (PPC), web design, GEO / AI search optimisation, managed AI websites and a free SEO audit, with GDC and ASA advertising compliance built in. Contact: hello@dentalmarketingpros.co.uk, 01302 616311.
+
+## Services
+${core.join("\n")}
+
+## Locations
+${towns.join("\n")}
+
+## Guides
+${guides.join("\n")}
+`;
+  const f = path.join(SITE_ROOT, "llms.txt");
+  if (!fs.existsSync(f) || fs.readFileSync(f, "utf8") !== txt) fs.writeFileSync(f, txt);
 }
 
 // ---------- per-page transforms ----------
@@ -419,10 +512,10 @@ function rebuildSitemap(pages) {
   const today = new Date().toISOString().slice(0, 10);
   const prio = f => {
     if (f === "index.html") return "1.0";
-    if (["seo.html", "ppc.html", "web-design.html", "locations.html"].includes(f)) return "0.9";
+    if (["seo.html", "ppc.html", "web-design.html", "locations.html", "geo.html", "ai-websites.html", "free-seo-audit.html"].includes(f)) return "0.9";
     if (["services.html", "about.html", "contact.html"].includes(f)) return "0.8";
     if (f.startsWith("dental-marketing-") && !pages[f].isArticle) return "0.8";
-    if (/^dental-(seo|ppc|web-design)-[a-z]+\.html$/.test(f) && !pages[f].isArticle) return "0.7";
+    if (/^dental-(seo|ppc|web-design|geo)-[a-z]+\.html$/.test(f) && !pages[f].isArticle) return "0.7";
     return "0.6";
   };
   // previous lastmods, used when git history is unavailable (shallow checkout)
@@ -475,12 +568,16 @@ Sitemap: ${BASE}/sitemap.xml
 function main() {
   const overridesPath = path.join(AUTOBLOG_DIR, "seo-overrides.json");
   const overrides = fs.existsSync(overridesPath) ? JSON.parse(fs.readFileSync(overridesPath, "utf8")).pages || {} : {};
+  const built = buildPages(SITE_ROOT);
+  if (built.published.length) console.log(`  ✓ published: ${built.published.join(", ")}`);
+  if (built.waiting.length) console.log(`  · queued: ${built.waiting.join(", ")}`);
   const { pages, articles } = loadSite();
   const relatedMap = buildRelatedMap(articles);
 
   for (const page of Object.values(pages)) {
     page.html = applyContentMigrations(page.file, page.html);
     page.html = fixHomeLinks(page.html);
+    normaliseNav(page);
     fixTitleAndDescription(page, overrides);
     setOpenGraph(page);
     setNoindex(page);
@@ -490,8 +587,11 @@ function main() {
       setAuthorBoxAndRelated(page, relatedMap);
     } else if (page.file === "index.html") {
       setHomeLatest(page, articles);
+      setNewServices(page);
     } else {
       setGuidesBlock(page, articles);
+      setNewServices(page);
+      setAiWebsiteCrossLink(page);
     }
   }
 
@@ -507,6 +607,7 @@ function main() {
   const resAfter = fs.readFileSync(path.join(SITE_ROOT, "resources.html"), "utf8");
   if (resAfter !== resBefore && !changed) changed++;
   const urls = rebuildSitemap(pages);
+  writeLlmsTxt(pages, articles);
   console.log(`✓ seo-maintain: ${changed} page(s) updated, ${articles.length} articles, resources ${n}, sitemap ${urls} URLs.`);
 }
 
