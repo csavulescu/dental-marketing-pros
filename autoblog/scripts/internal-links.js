@@ -284,8 +284,32 @@ function migratePageLinks(file, html) {
 // page (title, description, eyebrow, H3, AboutPage schema), with one link from
 // the About page to the homepage using the "dental marketing agency" anchor.
 // Each edit is signature-checked, so it runs once and can be edited by hand after.
+// The homepage has its own inline CSS and doesn't load style.css, so the classes
+// used by the sections added in content-migrations.js (prose text and links, the
+// two-column split, the panel and the FAQ list) are copied here from style.css.
+const HOME_SECTION_CSS = "/* dmp:home-sections */"
+  + ".prose h2{font-size:1.9rem;font-weight:800;margin:36px 0 14px}"
+  + ".prose h3{font-size:1.25rem;font-weight:700;margin:28px 0 10px}"
+  + ".prose p{color:var(--slate);margin-bottom:16px}"
+  + ".prose ul,ul.prose{margin:0 0 18px 0;list-style:none;padding-left:0}"
+  + ".prose li{position:relative;padding:6px 0 6px 28px;color:var(--ink)}"
+  + ".prose li:before{content:\"\\u2713\";position:absolute;left:0;color:var(--teal);font-weight:700}"
+  + ".prose a:not(.btn){color:var(--teal);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}"
+  + ".prose a:not(.btn):hover{color:var(--teal-dark);text-decoration-thickness:2px}"
+  + ".split{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}"
+  + ".split .panel{background:var(--mist);border-radius:18px;padding:40px;border:1px solid var(--line)}"
+  + ".faq{max-width:820px;margin:0 auto}"
+  + ".faq details{border-bottom:1px solid var(--line);padding:20px 0}"
+  + ".faq summary{font-family:'Plus Jakarta Sans';font-weight:700;font-size:1.05rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}"
+  + ".faq summary::-webkit-details-marker{display:none}"
+  + ".faq summary:after{content:\"+\";color:var(--teal);font-size:1.4rem;font-weight:400}"
+  + ".faq details[open] summary:after{content:\"\\u2212\"}"
+  + ".faq details p{color:var(--slate);margin-top:12px}"
+  + "@media(max-width:900px){.split{grid-template-columns:1fr;gap:30px}.split .panel{padding:28px}}";
+
 function migrateHeadTerm(file, html) {
   if (file === "index.html") {
+    if (!html.includes("/* dmp:home-sections */")) html = html.replace("</style>", () => HOME_SECTION_CSS + "</style>");
     html = replaceOnce(html,
       '<span class="eyebrow">Dental marketing agency · Dentists only</span>',
       '<span class="eyebrow">Dentists only · South Yorkshire &amp; UK-wide</span>',
