@@ -28,8 +28,25 @@ const PLACEHOLDER = "a company registered in England and Wales. Company number: 
 const REG_INLINE = `a company registered in England and Wales (company number 12505792, VAT number GB328400425, registered office ${ADDR_HTML}),`;
 const REG_SENTENCE = `a company registered in England and Wales. Company number: 12505792. VAT number: GB328400425. Registered office: ${ADDR_HTML}.`;
 
+// Areas served, as schema.org places (replaces the old plain-text lists).
+const AREAS = [
+  { "@type": "City", "name": "Sheffield" },
+  { "@type": "City", "name": "Doncaster" },
+  { "@type": "City", "name": "Rotherham" },
+  { "@type": "City", "name": "Barnsley" },
+  { "@type": "City", "name": "Chesterfield" },
+  { "@type": "AdministrativeArea", "name": "South Yorkshire" },
+  { "@type": "AdministrativeArea", "name": "North Derbyshire" },
+  { "@type": "Country", "name": "United Kingdom" }
+];
+const AREAS_JSON = JSON.stringify(AREAS);
+
 // Ordered: the specific patterns run before the generic phone / name swaps.
 const REPLACEMENTS = [
+  // schema: areaServed as structured places (page JSON-LD, page sources, build-pages.js ORG)
+  ['"areaServed":["South Yorkshire","North Derbyshire","United Kingdom"]', `"areaServed":${AREAS_JSON}`],
+  ['"areaServed":["South Yorkshire","United Kingdom"]', `"areaServed":${AREAS_JSON}`],
+  ['"areaServed": ["South Yorkshire", "North Derbyshire", "United Kingdom"]', `"areaServed": ${AREAS_JSON}`],
   // schema: page JSON-LD (single line) and build-pages.js ORG object
   [`"legalName":"${OLD_NAME}","url":"https://dentalmarketingpros.co.uk/","telephone":"${OLD_TEL_INTL}",`,
    `"legalName":"${NEW_NAME}","url":"https://dentalmarketingpros.co.uk/","telephone":"${NEW_TEL_INTL}",${ADDR_SCHEMA}`],
@@ -56,6 +73,47 @@ const REPLACEMENTS = [
 const FORM_CC = "cristian@uclimb.co.uk";
 const CAPTCHA_FIELD = '<input type="hidden" name="_captcha" value="false">';
 
+// Team: Person schema + anchor for team members named on about.html, so they can
+// be referenced as authors. Cristian's Person node is added by content-migrations.js.
+const BASE = "https://dentalmarketingpros.co.uk";
+const TEAM = [{
+  anchor: "furqan",
+  card: '<h3 style="font-size:1.15rem;margin-bottom:4px">Furqan</h3>',
+  person: {
+    "@type": "Person",
+    "@id": BASE + "/about.html#furqan",
+    "name": "Furqan",
+    "jobTitle": "SEO Specialist",
+    "url": BASE + "/about.html#furqan",
+    "worksFor": { "@id": BASE + "/#org" },
+    "knowsAbout": ["Search engine optimisation", "Local SEO", "Technical SEO", "WordPress"],
+    "description": "Furqan is an SEO specialist and WordPress designer at Dental Marketing Pros, with over 8 years' experience in search engine optimisation."
+  }
+}];
+
+function addTeamSchema(s) {
+  for (const t of TEAM) {
+    // anchor on the team card so #furqan links land on it
+    const cardOpen = '<div class="card" style="padding:26px 24px">';
+    const at = s.indexOf(t.card);
+    if (at > 0 && !s.includes(`id="${t.anchor}"`)) {
+      const open = s.lastIndexOf(cardOpen, at);
+      if (open >= 0) s = s.slice(0, open) + `<div class="card" id="${t.anchor}" style="padding:26px 24px">` + s.slice(open + cardOpen.length);
+    }
+    if (!s.includes(`"@id":"${t.person["@id"]}"`)) {
+      const m = s.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+      if (m) {
+        const data = JSON.parse(m[1]);
+        if (Array.isArray(data["@graph"])) {
+          data["@graph"].push(t.person);
+          s = s.replace(m[0], () => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`);
+        }
+      }
+    }
+  }
+  return s;
+}
+
 const SKIP_DIRS = new Set([".git", "node_modules"]);
 const EXTS = new Set([".html", ".js", ".txt", ".json", ".md", ".xml"]);
 
@@ -77,6 +135,8 @@ function applyBusinessDetails(siteRoot) {
     if (path.basename(file) === "contact.html" && !s.includes(`📍 ${NEW_NAME}, `)) {
       s = s.replace("<li>🕑 Mon–Fri, 9am–5pm</li>", `<li>📍 ${NEW_NAME}, ${ADDR_HTML}</li>\n            <li>🕑 Mon–Fri, 9am–5pm</li>`);
     }
+    // about page: team Person schema
+    if (file === path.join(siteRoot, "about.html")) s = addTeamSchema(s);
     // enquiry forms: copy submissions to FORM_CC
     if (s.includes('action="https://formsubmit.co/') && !s.includes('name="_cc"')) {
       s = s.split(CAPTCHA_FIELD).join(`${CAPTCHA_FIELD}\n          <input type="hidden" name="_cc" value="${FORM_CC}">`);

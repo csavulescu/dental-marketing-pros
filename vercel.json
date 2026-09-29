@@ -1,5 +1,11 @@
 {
   "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.dentalmarketingpros.co.uk" }],
+      "destination": "https://dentalmarketingpros.co.uk/:path*",
+      "permanent": true
+    },
     { "source": "/index.html", "destination": "/", "permanent": true }
   ]
 }
