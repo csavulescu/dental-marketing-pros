@@ -104,9 +104,8 @@ const PHRASES = [
 const PILLAR_TOWN = {
   SEO: ["dental-seo-", t => `dental SEO in ${t}`],
   PPC: ["dental-ppc-", t => `Google Ads for dentists in ${t}`],
-  Web: ["dental-web-design-", t => `dental web design in ${t}`]
-  // GEO articles use the town hub: the dental-geo-[town] pages are thin and
-  // due to be merged into the hubs, so we don't build links into them.
+  Web: ["dental-web-design-", t => `dental web design in ${t}`],
+  GEO: ["dental-geo-", t => `GEO and AI search for ${t} practices`]
 };
 const DEFAULT_TOWN = ["dental-marketing-", t => `dental marketing in ${t}`];
 
@@ -243,6 +242,7 @@ function replaceOnce(html, find, repl, signature) {
 }
 
 function migratePageLinks(file, html) {
+  html = migrateHeadTerm(file, html);
   if (file === "index.html") {
     html = replaceOnce(html,
       'and <a href="dental-web-design-sheffield.html">dental web design in Sheffield</a>. See all towns',
@@ -273,6 +273,64 @@ function migratePageLinks(file, html) {
       if (end > 0) {
         const para = `\n        <p>Most ${name} practices start with one of three services: <a href="dental-seo-${t}.html">dental SEO in ${name}</a> to win local and treatment searches, <a href="dental-ppc-${t}.html">Google Ads for dentists in ${name}</a> when you need enquiries quickly, or <a href="dental-web-design-${t}.html">dental web design in ${name}</a> when the website is losing bookings.</p>`;
         html = html.slice(0, end) + para + html.slice(end);
+      }
+    }
+  }
+  return html;
+}
+
+// ---------- 2026-09-29: homepage owns "dental marketing agency" ----------
+// Puts the head term in the homepage H1 and turns about.html into a plain About
+// page (title, description, eyebrow, H3, AboutPage schema), with one link from
+// the About page to the homepage using the "dental marketing agency" anchor.
+// Each edit is signature-checked, so it runs once and can be edited by hand after.
+function migrateHeadTerm(file, html) {
+  if (file === "index.html") {
+    html = replaceOnce(html,
+      '<span class="eyebrow">Dental marketing agency · Dentists only</span>',
+      '<span class="eyebrow">Dentists only · South Yorkshire &amp; UK-wide</span>',
+      'South Yorkshire &amp; UK-wide</span>');
+    html = replaceOnce(html,
+      '<h1>More Patients.<br>Stronger Practice.<br><span class="g">Lasting Growth.</span></h1>',
+      '<h1>Dental Marketing Agency for More Patients &amp;<br><span class="g">Lasting Growth.</span></h1>',
+      '<h1>Dental Marketing Agency');
+  }
+  if (file === "about.html") {
+    html = replaceOnce(html,
+      "<title>About Us | The Dental-Only Marketing Agency</title>",
+      "<title>About Us: Our Team and Story | Dental Marketing Pros</title>",
+      "<title>About Us: Our Team and Story");
+    html = replaceOnce(html,
+      '<meta name="description" content="We only work with dental practices. Learn how our dental-exclusive, compliance-first approach to SEO, PPC and web design helps UK dentists grow.">',
+      '<meta name="description" content="Meet the team behind Dental Marketing Pros, a UClimb brand: our story, our specialists and how we work with dental practices in South Yorkshire and the UK.">',
+      'content="Meet the team behind Dental Marketing Pros');
+    html = replaceOnce(html,
+      '<span class="eyebrow" style="margin-top:14px;display:block">Dental marketing is all we do</span>',
+      '<span class="eyebrow" style="margin-top:14px;display:block">About us</span>',
+      'display:block">About us</span>');
+    html = replaceOnce(html,
+      "and the kind of patient you actually want in the chair.</p>",
+      'and the kind of patient you actually want in the chair. It is why we run a <a href="/">dental marketing agency</a> for dentists only, rather than adding practices to a general client list.</p>',
+      '<a href="/">dental marketing agency</a>');
+    html = replaceOnce(html,
+      "margin:10px 0 14px\">Most dental marketing isn't compliant</h3>",
+      "margin:10px 0 14px\">Most practice advertising isn't compliant</h3>",
+      "Most practice advertising isn't compliant");
+    if (!html.includes('"@type":"AboutPage"')) {
+      const m = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+      if (m) {
+        const data = JSON.parse(m[1]);
+        if (Array.isArray(data["@graph"])) {
+          data["@graph"].push({
+            "@type": "AboutPage",
+            "@id": "https://dentalmarketingpros.co.uk/about.html#webpage",
+            "url": "https://dentalmarketingpros.co.uk/about.html",
+            "name": "About Dental Marketing Pros",
+            "about": { "@id": "https://dentalmarketingpros.co.uk/#org" },
+            "isPartOf": { "@type": "WebSite", "url": "https://dentalmarketingpros.co.uk/", "name": "Dental Marketing Pros" }
+          });
+          html = html.replace(m[0], () => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`);
+        }
       }
     }
   }
