@@ -67,6 +67,8 @@ section{padding:74px 0}
 .prose ul,ul.prose{margin:0 0 18px 0;list-style:none;padding-left:0}
 .prose li{position:relative;padding:6px 0 6px 28px;color:var(--ink)}
 .prose li:before{content:"✓";position:absolute;left:0;color:var(--teal);font-weight:700}
+.prose a:not(.btn){color:var(--teal);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.prose a:not(.btn):hover{color:var(--teal-dark);text-decoration-thickness:2px}
 
 /* SPLIT */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
