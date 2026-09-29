@@ -4,7 +4,8 @@
  * Idempotent: rewrites any page, template or text file that still carries the
  * old phone number / legal entity, and adds the registered address + company
  * and VAT numbers. Once everything is current it changes nothing.
- * Emails are deliberately left untouched.
+ * Emails are deliberately left untouched. Enquiry forms (FormSubmit) also get
+ * FORM_CC added, so every submission is copied to those addresses.
  *
  * Usage: require("./business-details")(SITE_ROOT)  (called at the end of seo-maintain.js)
  */
@@ -51,6 +52,10 @@ const REPLACEMENTS = [
   [OLD_NAME, NEW_NAME],
 ];
 
+// FormSubmit: comma-separated addresses copied on every enquiry form submission
+const FORM_CC = "cristian@uclimb.co.uk";
+const CAPTCHA_FIELD = '<input type="hidden" name="_captcha" value="false">';
+
 const SKIP_DIRS = new Set([".git", "node_modules"]);
 const EXTS = new Set([".html", ".js", ".txt", ".json", ".md", ".xml"]);
 
@@ -71,6 +76,10 @@ function applyBusinessDetails(siteRoot) {
     // contact page: show the address alongside the phone / email
     if (path.basename(file) === "contact.html" && !s.includes(`📍 ${NEW_NAME}, `)) {
       s = s.replace("<li>🕑 Mon–Fri, 9am–5pm</li>", `<li>📍 ${NEW_NAME}, ${ADDR_HTML}</li>\n            <li>🕑 Mon–Fri, 9am–5pm</li>`);
+    }
+    // enquiry forms: copy submissions to FORM_CC
+    if (s.includes('action="https://formsubmit.co/') && !s.includes('name="_cc"')) {
+      s = s.split(CAPTCHA_FIELD).join(`${CAPTCHA_FIELD}\n          <input type="hidden" name="_cc" value="${FORM_CC}">`);
     }
     if (s !== orig) { fs.writeFileSync(file, s, "utf8"); changed++; }
   }
