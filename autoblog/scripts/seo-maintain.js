@@ -13,7 +13,8 @@
  *      otherwise drops the " | Dental Marketing Pros" suffix when the title
  *      would run past 60 characters.
  *   3. Open Graph + Twitter card tags.
- *   4. Articles: named author (Person) in BlogPosting JSON-LD, visible byline,
+ *   4. Articles: contextual in-body links + a local "next step" paragraph
+ *      (internal-links.js), named author (Person) in BlogPosting JSON-LD, visible byline,
  *      author box, and a "Related guides" block of the 4 closest articles
  *      (with a guarantee that no article is left without a related link).
  *   5. Service / town / hub pages: a "Guides" block linking into the articles;
@@ -33,6 +34,7 @@ const rebuildResources = require("./rebuild-resources");
 const applyContentMigrations = require("./content-migrations");
 const { buildPages, megaInner } = require("./build-pages");
 const applyBusinessDetails = require("./business-details");
+const { setContextualLinks, migratePageLinks } = require("./internal-links");
 
 const SITE_ROOT = process.env.SITE_ROOT || (require.main === module && process.argv[2]) || path.join(__dirname, "..", "..");
 const AUTOBLOG_DIR = path.join(__dirname, "..");
@@ -358,7 +360,8 @@ ${guides.join("\n")}
 
 // ---------- per-page transforms ----------
 function fixHomeLinks(html) {
-  return html.replace(/href="index\.html#/g, 'href="/#').replace(/href="index\.html"/g, 'href="/"');
+  return html.replace(/href="index\.html#/g, 'href="/#').replace(/href="index\.html"/g, 'href="/"')
+    .replace(/href="\/contact"/g, 'href="contact.html"'); // /contact has no clean-URL rewrite and 404s
 }
 
 function fixTitleAndDescription(page, overrides) {
@@ -577,6 +580,7 @@ function main() {
 
   for (const page of Object.values(pages)) {
     page.html = applyContentMigrations(page.file, page.html);
+    page.html = migratePageLinks(page.file, page.html);
     page.html = fixHomeLinks(page.html);
     normaliseNav(page);
     fixTitleAndDescription(page, overrides);
@@ -585,6 +589,7 @@ function main() {
     if (page.isArticle) {
       setArticleSchemaAuthor(page);
       setByline(page);
+      setContextualLinks(page, f => !!pages[f]);
       setAuthorBoxAndRelated(page, relatedMap);
     } else if (page.file === "index.html") {
       setHomeLatest(page, articles);
