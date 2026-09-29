@@ -42,7 +42,7 @@ const ORG = {
   "vatID": "GB328400425",
   "email": "hello@dentalmarketingpros.co.uk",
   "description": "Specialist dental marketing agency offering SEO, Google Ads and web design for UK dental practices.",
-  "areaServed": ["South Yorkshire", "North Derbyshire", "United Kingdom"],
+  "areaServed": [{"@type":"City","name":"Sheffield"},{"@type":"City","name":"Doncaster"},{"@type":"City","name":"Rotherham"},{"@type":"City","name":"Barnsley"},{"@type":"City","name":"Chesterfield"},{"@type":"AdministrativeArea","name":"South Yorkshire"},{"@type":"AdministrativeArea","name":"North Derbyshire"},{"@type":"Country","name":"United Kingdom"}],
   "priceRange": "££"
 };
 
