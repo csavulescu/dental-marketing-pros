@@ -293,7 +293,7 @@ const HOME_SECTION_CSS = "/* dmp:home-sections */"
   + ".prose p{color:var(--slate);margin-bottom:16px}"
   + ".prose ul,ul.prose{margin:0 0 18px 0;list-style:none;padding-left:0}"
   + ".prose li{position:relative;padding:6px 0 6px 28px;color:var(--ink)}"
-  + ".prose li:before{content:\"\\u2713\";position:absolute;left:0;color:var(--teal);font-weight:700}"
+  + ".prose li:before{content:\"\\2713\";position:absolute;left:0;color:var(--teal);font-weight:700}"
   + ".prose a:not(.btn){color:var(--teal);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}"
   + ".prose a:not(.btn):hover{color:var(--teal-dark);text-decoration-thickness:2px}"
   + ".split{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}"
@@ -303,13 +303,15 @@ const HOME_SECTION_CSS = "/* dmp:home-sections */"
   + ".faq summary{font-family:'Plus Jakarta Sans';font-weight:700;font-size:1.05rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}"
   + ".faq summary::-webkit-details-marker{display:none}"
   + ".faq summary:after{content:\"+\";color:var(--teal);font-size:1.4rem;font-weight:400}"
-  + ".faq details[open] summary:after{content:\"\\u2212\"}"
+  + ".faq details[open] summary:after{content:\"\\2212\"}"
   + ".faq details p{color:var(--slate);margin-top:12px}"
   + "@media(max-width:900px){.split{grid-template-columns:1fr;gap:30px}.split .panel{padding:28px}}";
 
 function migrateHeadTerm(file, html) {
   if (file === "index.html") {
     if (!html.includes("/* dmp:home-sections */")) html = html.replace("</style>", () => HOME_SECTION_CSS + "</style>");
+    // repair an earlier version of the block that used JS-style escapes, which CSS doesn't understand
+    html = html.split('content:"\\u2713"').join('content:"\\2713"').split('content:"\\u2212"').join('content:"\\2212"');
     html = replaceOnce(html,
       '<span class="eyebrow">Dental marketing agency · Dentists only</span>',
       '<span class="eyebrow">Dentists only · South Yorkshire &amp; UK-wide</span>',
