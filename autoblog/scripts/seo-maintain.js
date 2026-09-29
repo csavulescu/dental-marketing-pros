@@ -13,9 +13,11 @@
  *      otherwise drops the " | Dental Marketing Pros" suffix when the title
  *      would run past 60 characters.
  *   3. Open Graph + Twitter card tags.
- *   4. Articles: named author (Person) in BlogPosting JSON-LD, visible byline,
- *      author box, and a "Related guides" block of the 4 closest articles
- *      (with a guarantee that no article is left without a related link).
+ *   4. Articles: contextual in-body links + a local "next step" paragraph
+ *      (internal-links.js), named author (Person) in BlogPosting JSON-LD, visible byline,
+ *      author box, and a "Related guides" block of 4 close articles (with a
+ *      guarantee that every article is linked from at least 3 others), and at
+ *      least 3 links to other guides in the body.
  *   5. Service / town / hub pages: a "Guides" block linking into the articles;
  *      homepage: the 3 latest articles.
  *   6. One-off content additions from content-migrations.js (run once each).
@@ -33,6 +35,7 @@ const rebuildResources = require("./rebuild-resources");
 const applyContentMigrations = require("./content-migrations");
 const { buildPages, megaInner } = require("./build-pages");
 const applyBusinessDetails = require("./business-details");
+const { setContextualLinks, migratePageLinks } = require("./internal-links");
 
 const SITE_ROOT = process.env.SITE_ROOT || (require.main === module && process.argv[2]) || path.join(__dirname, "..", "..");
 const AUTOBLOG_DIR = path.join(__dirname, "..");
@@ -216,26 +219,31 @@ function pickForPage(file, articles) {
 
 // ---------- HTML fragments ----------
 const CARD_IC = `<div class="ic"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>`;
-// related lists for every article: 3 closest + a 4th slot that guarantees no
-// article is left without a related-link from another article.
+// related lists for every article: the 2 closest, then extra slots (up to 4)
+// used to guarantee every article is linked from at least MIN_INBOUND others.
+const MIN_INBOUND = 3;
 function buildRelatedMap(articles) {
   const map = {};
-  for (const a of articles) map[a.file] = relatedFor(a, articles, 3);
+  for (const a of articles) map[a.file] = relatedFor(a, articles, 2);
   const inbound = {};
   for (const a of articles) inbound[a.file] = 0;
   for (const list of Object.values(map)) for (const b of list) inbound[b.file]++;
-  const orphans = articles.filter(a => inbound[a.file] === 0).sort((x, y) => x.file.localeCompare(y.file));
-  for (const z of orphans) {
-    const host = articles
-      .filter(a => a.file !== z.file && map[a.file].length < 4 && !map[a.file].includes(z))
-      .map(a => ({ a, s: similarity(z, a) }))
-      .sort((x, y) => y.s - x.s || x.a.file.localeCompare(y.a.file))[0];
-    if (host) { map[host.a.file].push(z); inbound[z.file]++; }
+  for (let round = 1; round <= MIN_INBOUND; round++) {
+    const short = articles.filter(a => inbound[a.file] < round).sort((x, y) => x.file.localeCompare(y.file));
+    for (const z of short) {
+      const host = articles
+        .filter(a => a.file !== z.file && map[a.file].length < 4 && !map[a.file].includes(z))
+        .map(a => ({ a, s: similarity(z, a) }))
+        .sort((x, y) => y.s - x.s || x.a.file.localeCompare(y.a.file))[0];
+      if (host) { map[host.a.file].push(z); inbound[z.file]++; }
+    }
   }
   for (const a of articles) {
-    if (map[a.file].length < 4) {
-      const next = relatedFor(a, articles, 10).find(b => !map[a.file].includes(b));
-      if (next) map[a.file].push(next);
+    const pool = relatedFor(a, articles, 12);
+    while (map[a.file].length < 4) {
+      const next = pool.find(b => !map[a.file].includes(b));
+      if (!next) break;
+      map[a.file].push(next);
     }
   }
   return map;
@@ -358,7 +366,8 @@ ${guides.join("\n")}
 
 // ---------- per-page transforms ----------
 function fixHomeLinks(html) {
-  return html.replace(/href="index\.html#/g, 'href="/#').replace(/href="index\.html"/g, 'href="/"');
+  return html.replace(/href="index\.html#/g, 'href="/#').replace(/href="index\.html"/g, 'href="/"')
+    .replace(/href="\/contact"/g, 'href="contact.html"'); // /contact has no clean-URL rewrite and 404s
 }
 
 function fixTitleAndDescription(page, overrides) {
@@ -577,6 +586,7 @@ function main() {
 
   for (const page of Object.values(pages)) {
     page.html = applyContentMigrations(page.file, page.html);
+    page.html = migratePageLinks(page.file, page.html);
     page.html = fixHomeLinks(page.html);
     normaliseNav(page);
     fixTitleAndDescription(page, overrides);
@@ -585,6 +595,7 @@ function main() {
     if (page.isArticle) {
       setArticleSchemaAuthor(page);
       setByline(page);
+      setContextualLinks(page, f => !!pages[f], () => relatedFor(page, articles, 12), f => !!(pages[f] && pages[f].isArticle));
       setAuthorBoxAndRelated(page, relatedMap);
     } else if (page.file === "index.html") {
       setHomeLatest(page, articles);
