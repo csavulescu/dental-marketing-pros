@@ -1,4 +1,4 @@
-/* GDPR cookie consent for Dental Marketing Pros (Elite Talent Media LTD)
+/* GDPR cookie consent for Dental Marketing Pros (UClimb Ltd)
    - Analytics (Vercel Web Analytics + Speed Insights) load ONLY after the
      visitor accepts. Reject => nothing non-essential loads.
    - Choice stored in localStorage (strictly necessary).
