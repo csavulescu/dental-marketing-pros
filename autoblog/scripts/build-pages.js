@@ -37,7 +37,7 @@ const ORG = {
   "name": "Dental Marketing Pros",
   "legalName": "UClimb Ltd",
   "url": BASE + "/",
-  "telephone": "+443302366568",
+  "telephone": "+441246922127",
   "address": { "@type": "PostalAddress", "streetAddress": "5th Floor, 167-169 Great Portland Street", "addressLocality": "London", "postalCode": "W1W 5PF", "addressCountry": "GB" },
   "vatID": "GB328400425",
   "email": "hello@dentalmarketingpros.co.uk",
@@ -104,7 +104,7 @@ const FOOTER = `<footer>
       <div><h5>Services</h5><ul><li><a href="seo.html">SEO</a></li><li><a href="ppc.html">PPC Advertising</a></li><li><a href="web-design.html">Web Design</a></li><li><a href="geo.html">GEO &amp; AI Search</a></li><li><a href="ai-websites.html">AI Websites</a></li><li><a href="free-seo-audit.html">Free SEO Audit</a></li></ul></div>
       <div><h5>Locations</h5><ul><li><a href="dental-marketing-sheffield.html">Sheffield</a></li><li><a href="dental-marketing-doncaster.html">Doncaster</a></li><li><a href="dental-marketing-rotherham.html">Rotherham</a></li><li><a href="dental-marketing-barnsley.html">Barnsley</a></li><li><a href="dental-marketing-chesterfield.html">Chesterfield</a></li></ul></div>
       <div><h5>Company</h5><ul><li><a href="about.html">About Us</a></li><li><a href="resources.html">Resources</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-      <div><h5>Contact Us</h5><ul><li>📞 <a href="tel:03302366568">0330 236 6568</a></li><li>✉ hello@dentalmarketingpros.co.uk</li><li>📍 UClimb Ltd<br>5th Floor<br>167&ndash;169 Great Portland Street<br>London<br>W1W 5PF</li></ul></div>
+      <div><h5>Contact Us</h5><ul><li>📞 <a href="tel:01246922127">01246 922127</a></li><li>✉ hello@dentalmarketingpros.co.uk</li><li>📍 UClimb Ltd<br>5th Floor<br>167&ndash;169 Great Portland Street<br>London<br>W1W 5PF</li></ul></div>
     </div>
     <div class="foot-bottom">
       <span>© 2026 Dental Marketing Pros, a trading name of UClimb Ltd. All rights reserved.<br>Company number 12505792 | VAT number GB328400425</span>

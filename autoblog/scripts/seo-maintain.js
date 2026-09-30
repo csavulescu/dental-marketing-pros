@@ -349,7 +349,7 @@ function writeLlmsTxt(pages, articles) {
     .map(a => line(a.file, decode(a.headline), decode(a.description)));
   const txt = `# Dental Marketing Pros
 
-> Specialist dental marketing agency (a trading name of UClimb Ltd) based in South Yorkshire, UK. We work only with dental practices, offering dental SEO, Google Ads (PPC), web design, GEO / AI search optimisation, managed AI websites and a free SEO audit, with GDC and ASA advertising compliance built in. Contact: hello@dentalmarketingpros.co.uk, 0330 236 6568.
+> Specialist dental marketing agency (a trading name of UClimb Ltd) based in South Yorkshire, UK. We work only with dental practices, offering dental SEO, Google Ads (PPC), web design, GEO / AI search optimisation, managed AI websites and a free SEO audit, with GDC and ASA advertising compliance built in. Contact: hello@dentalmarketingpros.co.uk, 01246 922127.
 
 ## Services
 ${core.join("\n")}
