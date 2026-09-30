@@ -17,9 +17,13 @@ const NEW_NAME = "UClimb Ltd";
 const OLD_TEL = "0130" + "2616311";
 const OLD_TEL_SPACED = "01302 " + "616311";
 const OLD_TEL_INTL = "+44" + "1302616311";
-const NEW_TEL = "03302366568";
-const NEW_TEL_SPACED = "0330 236 6568";
-const NEW_TEL_INTL = "+443302366568";
+const NEW_TEL = "01246922127";
+const NEW_TEL_SPACED = "01246 922127";
+const NEW_TEL_INTL = "+441246922127";
+// Previous number (0330), swapped out Sept 2026
+const PREV_TEL = "0330" + "2366568";
+const PREV_TEL_SPACED = "0330 " + "236 6568";
+const PREV_TEL_INTL = "+44" + "3302366568";
 const ADDR_HTML = "5th Floor, 167&ndash;169 Great Portland Street, London W1W 5PF";
 const LEGAL = "Company number 12505792 | VAT number GB328400425";
 const ADDR_SCHEMA = '"address":{"@type":"PostalAddress","streetAddress":"5th Floor, 167-169 Great Portland Street","addressLocality":"London","postalCode":"W1W 5PF","addressCountry":"GB"},"vatID":"GB328400425",';
@@ -66,6 +70,9 @@ const REPLACEMENTS = [
   [`tel:${OLD_TEL}`, `tel:${NEW_TEL}`],
   [OLD_TEL_SPACED, NEW_TEL_SPACED],
   [OLD_TEL_INTL, NEW_TEL_INTL],
+  [`tel:${PREV_TEL}`, `tel:${NEW_TEL}`],
+  [PREV_TEL_SPACED, NEW_TEL_SPACED],
+  [PREV_TEL_INTL, NEW_TEL_INTL],
   [OLD_NAME, NEW_NAME],
 ];
 
