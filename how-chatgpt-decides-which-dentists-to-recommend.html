@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="theme-color" content="#0d7a7a">
+<title>How ChatGPT decides which dentists to recommend</title>
+<meta name="description" content="Wondering why ChatGPT recommend dentist results skip your practice? Learn how AI assistants find and surface dental practices, and what you can do about it.">
+<link rel="canonical" href="https://dentalmarketingpros.co.uk/how-chatgpt-decides-which-dentists-to-recommend.html">
+<!-- dmp:og:start -->
+<meta property="og:site_name" content="Dental Marketing Pros">
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How ChatGPT decides which dentists to recommend">
+<meta property="og:description" content="Wondering why ChatGPT recommend dentist results skip your practice? Learn how AI assistants find and surface dental practices, and what you can do about it.">
+<meta property="og:url" content="https://dentalmarketingpros.co.uk/how-chatgpt-decides-which-dentists-to-recommend.html">
+<meta property="og:image" content="https://dentalmarketingpros.co.uk/hero.jpg">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="752">
+<meta property="og:image:alt" content="Dental Marketing Pros, specialist marketing for dental practices">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How ChatGPT decides which dentists to recommend">
+<meta name="twitter:description" content="Wondering why ChatGPT recommend dentist results skip your practice? Learn how AI assistants find and surface dental practices, and what you can do about it.">
+<meta name="twitter:image" content="https://dentalmarketingpros.co.uk/hero.jpg">
+<meta property="article:published_time" content="2026-10-06">
+<meta property="article:modified_time" content="2026-10-06">
+<meta property="article:author" content="https://dentalmarketingpros.co.uk/about.html#cristian-savulescu">
+<!-- dmp:og:end -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"How ChatGPT decides which dentists to recommend","description":"Wondering why ChatGPT recommend dentist results skip your practice? Learn how AI assistants find and surface dental practices, and what you can do about it.","datePublished":"2026-10-06","dateModified":"2026-10-06","author":{"@type":"Person","@id":"https://dentalmarketingpros.co.uk/about.html#cristian-savulescu","name":"Cristian Savulescu","jobTitle":"Founder","url":"https://dentalmarketingpros.co.uk/about.html#cristian-savulescu","worksFor":{"@type":"Organization","name":"Dental Marketing Pros","url":"https://dentalmarketingpros.co.uk/"}},"image":"https://dentalmarketingpros.co.uk/hero.jpg","publisher":{"@type":"Organization","name":"Dental Marketing Pros","legalName":"UClimb Ltd","url":"https://dentalmarketingpros.co.uk/","logo":{"@type":"ImageObject","url":"https://dentalmarketingpros.co.uk/favicon.svg"}},"mainEntityOfPage":"https://dentalmarketingpros.co.uk/how-chatgpt-decides-which-dentists-to-recommend.html","url":"https://dentalmarketingpros.co.uk/how-chatgpt-decides-which-dentists-to-recommend.html"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dentalmarketingpros.co.uk/"},{"@type":"ListItem","position":2,"name":"Resources","item":"https://dentalmarketingpros.co.uk/resources.html"},{"@type":"ListItem","position":3,"name":"How ChatGPT decides which dentists to recommend","item":"https://dentalmarketingpros.co.uk/how-chatgpt-decides-which-dentists-to-recommend.html"}]}]}</script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="/" class="logo">
+        <svg class="logo-mark" viewBox="0 0 40 40"><path d="M20 6c-5 0-7-2-11-2C5 4 3 7 3 12c0 8 3 15 5 19 1.5 3 4 3 5-1l2-7c.8-2.8 2.2-2.8 3 0l2 7c1 4 3.5 4 5 1 2-4 5-11 5-19 0-5-2-8-6-8-4 0-6 2-9 2z" fill="#0d7a7a"/></svg>
+        <span class="logo-text">DENTAL<span>MARKETING PROS</span></span>
+      </a>
+      <div class="nav-menu">
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="about.html">About Us</a>
+          <div class="has-mega">
+            <a href="services.html" class="mega-trigger">Services <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></a>
+            <div class="mega"><div class="mega-panel"><div class="mega-inner">
+  <a class="mega-card" href="seo.html"><span class="mega-ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="10" r="7"/><path d="m20 20-4-4"/></svg></span><span class="mega-tx"><b>SEO</b><small>Rank higher and win more local patients</small></span></a>
+  <a class="mega-card" href="ppc.html"><span class="mega-ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><circle cx="11" cy="11" r="3.5"/></svg></span><span class="mega-tx"><b>PPC / Google Ads</b><small>Instant, measurable patient enquiries</small></span></a>
+  <a class="mega-card" href="web-design.html"><span class="mega-ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span class="mega-tx"><b>Web Design</b><small>Conversion-focused dental websites</small></span></a>
+  <a class="mega-card" href="geo.html"><span class="mega-ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.8 1.9 1.9.8-1.9.8L19 20.4l-.8-1.9-1.9-.8 1.9-.8z"/></svg></span><span class="mega-tx"><b>GEO &amp; AI Search</b><small>Get recommended by ChatGPT &amp; AI Overviews</small></span></a>
+  <a class="mega-card" href="ai-websites.html"><span class="mega-ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M12 7.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg></span><span class="mega-tx"><b>AI Websites</b><small>No upfront cost, £50/month</small></span></a>
+  <a class="mega-card" href="free-seo-audit.html"><span class="mega-ic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v2h6V3"/><path d="M9 13l2 2 4-4"/></svg></span><span class="mega-tx"><b>Free SEO Audit</b><small>Actionable advice for your site, free</small></span></a>
+</div><div class="mega-foot"><span>Specialist marketing, dentists only</span><a href="services.html" class="mega-all">All services →</a></div></div></div>
+          </div>
+          <a href="free-seo-audit.html">Free SEO Audit</a>
+          <a href="locations.html">Locations</a>
+          <a href="resources.html" class="active">Resources</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-cta"><a href="contact.html" class="btn btn-primary">📅 Book a Free Strategy Call</a></div>
+      </div>
+      <button class="menu-btn" aria-label="Menu" aria-expanded="false">☰</button>
+    </nav>
+  </div>
+</header>
+<div class="page-hero"><div class="wrap">
+  <div class="crumb"><a href="/">Home</a> / <a href="resources.html">Resources</a> / How ChatGPT decides which dentists to recommend</div>
+  <span class="eyebrow" style="margin-top:14px;display:block">Resources · 9 min read</span>
+  <h1 style="margin-top:8px">How ChatGPT decides which dentists to recommend</h1>
+<!-- dmp:byline:start -->
+<p class="byline" style="margin:10px 0 14px;font-size:.9rem;color:var(--slate)">By <a href="about.html#cristian-savulescu">Cristian Savulescu</a>, Founder · Published 6 October 2026</p>
+<!-- dmp:byline:end -->
+  <p>AI assistants like ChatGPT, Gemini and Google AI Overviews are increasingly answering "find a dentist near me" queries directly, without sending patients to search results. This article explains how those recommendations form and what dental practices in South Yorkshire and North Derbyshire can do to improve their chances of being included.</p>
+</div></div>
+<div class="wrap"><section><div class="narrow prose">
+
+<p>A patient opens ChatGPT, types "recommend a dentist in Sheffield" and receives a confident, neatly formatted answer. Your practice is not in it. A competitor two streets away is. This is no longer a hypothetical scenario. AI assistants are actively answering local service queries, and the practices that appear in those answers tend to share certain characteristics. Understanding what those characteristics are, and how to develop them deliberately, is becoming an important part of dental marketing strategy.</p>
+
+<p>This article explains how tools like ChatGPT, Google <a data-dmp="auto" href="what-is-geo-a-plain-english-guide-for-dental-practice-owners.html">AI Overviews</a>, Gemini, Microsoft Copilot and Perplexity form their recommendations, why most dental practices are currently invisible to them, and what steps can genuinely help change that picture.</p>
+
+<h2>Why AI assistants are now part of the patient journey</h2>
+
+<p>For years, appearing on the first page of Google was the primary objective of local dental marketing. That remains important, but the landscape has shifted. A growing number of people now use AI chat tools as their first port of call when they have a question, including questions like "where can I find a good NHS dentist in Rotherham" or "which private dentists near me offer Invisalign."</p>
+
+<p>When someone asks an AI assistant for a local recommendation, the system does not simply run a Google search and paste the top result. It draws on a wide range of sources it has already processed: websites, directory listings, review platforms, local business data, news articles, professional association pages and more. It then constructs an answer it judges to be accurate and useful based on what it has found across all of those sources.</p>
+
+<p>The practical implication is straightforward. If your practice has a thin online presence, inconsistent information across directories, very few reviews or a website that communicates little substantive detail, there may simply not be enough reliable data about you for an AI to confidently include you in a recommendation. It is not that the AI dislikes your practice. It is that your practice does not have enough visible, coherent, credible information for the system to work with.</p>
+
+<h2>How AI assistants actually form local recommendations</h2>
+
+<p>It is worth being honest about the limits of what any marketer can claim here. The exact weighting and ranking logic inside tools like ChatGPT or Google AI Overviews is not publicly documented in detail, and anyone who tells you otherwise is speculating. What we can say with reasonable confidence, based on how these systems are designed and what their developers have described in general terms, is that they tend to favour sources with the following qualities.</p>
+
+<h3>Consistent and accurate structured data</h3>
+
+<p>AI systems are much better at processing information that is presented consistently and clearly. If your <a data-dmp="auto" href="google-business-profile-optimisation-for-dental-practices.html">Google Business Profile</a>, NHS choices listing, Denplan directory entry and your own website all agree on your practice name, address, phone number, opening hours and the services you offer, that consistency acts as a signal of reliability. Contradictions, for example a different phone number on Yell than on your website, create ambiguity that can reduce confidence in your data.</p>
+
+<h3>Depth and relevance of content on your website</h3>
+
+<p>A website that devotes a single paragraph to each treatment is less useful to an AI trying to understand what you offer than one that explains each service in meaningful detail. Content that answers genuine patient questions, describes your approach, lists the locations you serve and explains what makes your practice a reasonable choice gives AI systems more material to work with when forming a recommendation.</p>
+
+<p>It is also worth noting that <a href="mobile-first-dental-websites-why-70-of-your-traffic-decides-on-a-phone.html">mobile-first dental websites: why 70% of your traffic decides on a phone</a> are also better indexed by Google, which feeds into how AI Overviews and other tools evaluate your credibility. A slow, poorly structured website is a problem for both traditional SEO and for AI visibility.</p>
+
+<h3>Review volume and sentiment</h3>
+
+<p>Reviews are among the most human-readable signals available to an AI assistant trying to judge quality. Practices with a meaningful number of recent, specific, positive reviews on Google, Trustpilot and similar platforms give AI tools strong evidence that real patients have had good experiences. The key word is specific: reviews that mention particular treatments, staff members or outcomes are generally more informative than generic five-star ratings with no text.</p>
+
+<h3>Third-party mentions and citations</h3>
+
+<p>Being mentioned on credible third-party websites, whether that is a local news outlet, a professional association directory, a dental care comparison site or a community organisation, adds to the body of evidence that your practice exists and is worth recommending. These citations do not need to include a link to be useful, though links certainly help from a traditional SEO perspective as well.</p>
+
+<h3>Geographic relevance signals</h3>
+
+<p>When a patient asks for a dentist "near me" or names a specific town or postcode, AI assistants look for geographic signals that connect your practice to that location. This means your website should mention the specific towns, districts and postcodes you serve, not just your main address. A practice in Barnsley that serves patients from Wakefield, Cudworth and Royston should say so explicitly, in natural, readable content rather than as a keyword-stuffed list.</p>
+
+<h2>Why most dental practices are currently underrepresented in AI results</h2>
+
+<p>The honest answer is that most dental practices have not yet thought about this at all. The shift towards AI-assisted search is recent enough that many practice owners are still focused entirely on traditional Google rankings, pay-per-click advertising or social media. Those channels still matter. But the practices that begin building AI-readable authority now will be better placed as patient behaviour continues to shift.</p>
+
+<p>Common gaps that make practices harder for AI to recommend include: incomplete or inconsistent Google Business Profiles, websites with minimal written content, no systematic approach to collecting patient reviews, and an absence of any meaningful third-party presence beyond a basic NHS listing. These are all fixable problems, but they require deliberate effort rather than passive hope.</p>
+
+<h2>What you can do to improve your practice's AI visibility</h2>
+
+<p>The following steps can help improve how AI assistants understand and represent your practice. None of them guarantee a specific outcome, and results will vary depending on your location, competition and starting point. What they do is build a stronger, more coherent online presence that serves you across multiple channels, AI search included.</p>
+
+<ul>
+  <li><strong>Audit your directory listings.</strong> Check every major directory where your practice appears and ensure the information is identical and current. Google Business Profile, NHS Find a Dentist, Bing Places, Yell, Healthgrades and any dental-specific directories are all worth reviewing.</li>
+  <li><strong>Invest in substantive website content.</strong> Each core service should have its own page with enough detail to genuinely answer patient questions. Describe the treatment, who it suits, what the process involves and what patients can expect. Mention the specific towns and areas you serve.</li>
+  <li><strong>Build a review acquisition process.</strong> Ask patients to leave a review at the right moment, whether that is via a follow-up text, a card at reception or a prompt in your post-appointment communication. Make it easy by providing a direct link. Aim for regular, recent reviews rather than a one-off burst.</li>
+  <li><strong>Seek out legitimate third-party mentions.</strong> Sponsor a local event, contribute to a community initiative, join relevant professional directories or reach out to local health journalists. Genuine mentions on credible local websites help build the kind of external evidence that AI systems use to validate a practice's reputation.</li>
+  <li><strong>Use <a data-dmp="auto" href="schema-markup-for-dentists-helping-google-understand-your-site.html">structured data</a> markup on your website.</strong> Schema markup for local businesses and healthcare providers helps search engines and AI systems parse your information accurately. This is a technical task best handled by a developer or specialist agency, but it can make a meaningful difference to how your data is read.</li>
+  <li><strong>Keep your Google Business Profile active.</strong> Post updates regularly, respond to reviews promptly and professionally, upload current photographs and ensure your services section is fully completed. An active, well-maintained profile is a much richer data source than a neglected one.</li>
+</ul>
+
+<h2>How a specialist dental marketing agency can help</h2>
+
+<p>The steps above are not complicated in principle, but executing them consistently across a busy dental practice is another matter. Practice owners and their teams are understandably focused on clinical care and day-to-day management. Marketing, and particularly the technical and content-heavy work required for AI visibility, tends to get deprioritised.</p>
+
+<p>A specialist agency can take responsibility for this work systematically. That means conducting a thorough audit of your current online presence, identifying the specific gaps that are reducing your AI visibility, producing high-quality website content that serves both human readers and AI systems, managing your directory listings and review processes, and building the kind of geographic content strategy that connects your practice clearly to the communities you serve.</p>
+
+<p>Our <a href="geo.html">generative engine optimisation (GEO) service</a> is designed specifically for dental practices navigating this shift. It treats AI visibility not as a separate discipline but as an extension of a well-structured, credible online presence, one that also improves your traditional search rankings and the quality of experience you provide to every visitor who reaches your website.</p>
+
+<p>It is also worth remembering that AI visibility and traditional digital marketing reinforce each other. A website built to the right technical standards, as we describe in our guide to <a href="mobile-first-dental-websites-why-70-of-your-traffic-decides-on-a-phone.html">mobile-first dental websites and why the majority of your traffic decides on a phone</a>, is not only better for patients. It is also far easier for AI systems to read, index and trust.</p>
+
+<p>If you are unsure where your practice currently stands, a good starting point is a structured review of what AI tools can and cannot find about you. We offer a <a href="free-seo-audit.html">free SEO and visibility audit</a> for dental practices in South Yorkshire and North Derbyshire. It covers the key areas that influence both traditional and AI search performance, and gives you a clear picture of where the most impactful improvements lie.</p>
+
+<h2>The bottom line</h2>
+
+<p>AI assistants are not replacing Google. They are adding a new layer to how patients find healthcare providers, and that layer is growing. The practices that will fare best in this environment are not necessarily the ones with the biggest marketing budgets. They are the ones with the most coherent, consistent and credible online presence, practices that have invested in good content, accurate data, genuine reviews and a clear geographic identity.</p>
+
+<p>None of that happens overnight, but every month you delay is a month your competitors have more time to establish themselves in these new channels. If you would like to understand what a realistic improvement programme might look like for your practice, we are happy to have a straightforward conversation. <a href="contact.html">Get in touch with the Dental Marketing Pros team</a> and we can talk through your current position and where the most useful next steps might be.</p>
+<!-- dmp:nextstep:start -->
+<p>For practices near Doncaster, we've set out our local approach on the <a href="dental-geo-doncaster.html">GEO and AI search for Doncaster practices</a> page. Other towns are listed on our <a href="locations.html">locations page</a>.</p>
+<!-- dmp:nextstep:end -->
+<!-- dmp:authorbox:start -->
+<div class="author-box" style="display:flex;gap:16px;align-items:flex-start;margin-top:40px;padding:22px 24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--mist)">
+  <div style="flex:0 0 48px;width:48px;height:48px;border-radius:50%;background:var(--mist2);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--teal)">CS</div>
+  <div><p style="margin:0 0 4px;color:var(--ink)"><strong>About the author: <a href="about.html#cristian-savulescu">Cristian Savulescu</a></strong>, Founder, Dental Marketing Pros</p>
+  <p style="margin:0;font-size:.92rem">Cristian Savulescu is the founder of Dental Marketing Pros and an SEO and Google Ads specialist with over 10 years' experience. He has worked with many different types of businesses, including some Fortune 500 companies, and now leads SEO and Google Ads strategy for dental practices across South Yorkshire and North Derbyshire.</p></div>
+</div>
+<!-- dmp:authorbox:end -->
+
+</div></section></div>
+<!-- dmp:related:start -->
+<div class="wrap"><section>
+    <div class="sec-head"><span class="eyebrow">Keep reading</span><h2>Related guides</h2></div>
+    <div class="cards two">
+      <a class="card" href="what-is-geo-a-plain-english-guide-for-dental-practice-owners.html" style="display:block">
+        <div class="ic"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <h3>What is GEO? A plain-English guide for dental practice owners</h3>
+        <p>GEO for dentists explained clearly. Learn how AI search tools find dental practices and what you can do to stay visible as search behaviour changes.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="ai-overviews-explained-what-they-mean-for-dental-practices.html" style="display:block">
+        <div class="ic"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <h3>AI Overviews explained: what they mean for dental practices</h3>
+        <p>Google AI Overviews are changing how patients find dentists. Here's what UK practice owners need to know and how to stay visible in AI-generated search results.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="mobile-first-dental-websites-why-70-of-your-traffic-decides-on-a-phone.html" style="display:block">
+        <div class="ic"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <h3>Mobile-first dental websites: why 70% of your traffic decides on a phone</h3>
+        <p>Most patients browse on a phone. Discover why mobile dental website design determines whether your practice wins new patients or loses them to a competitor.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="how-long-does-dental-seo-take-to-work-realistic-timelines.html" style="display:block">
+        <div class="ic"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <h3>How long does dental SEO take to work? Realistic timelines</h3>
+        <p>Wondering how long dental SEO takes to deliver results? Get honest, realistic timelines and practical guidance built for UK dental practice owners.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+    </div>
+  </section></div>
+<!-- dmp:related:end -->
+<div class="wrap"><div class="cta-band">
+    <div><span class="eyebrow">Want help putting this into practice?</span><h2>Book a free, no-obligation strategy call.</h2></div>
+    <div class="cb-right"><a href="contact.html" class="btn btn-white">📅 Book a Free Call</a><small>Dentists only. Honest advice.</small></div>
+    <div class="ghost-tooth">🦷</div>
+  </div></div>
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo"><svg class="logo-mark" viewBox="0 0 40 40"><path d="M20 6c-5 0-7-2-11-2C5 4 3 7 3 12c0 8 3 15 5 19 1.5 3 4 3 5-1l2-7c.8-2.8 2.2-2.8 3 0l2 7c1 4 3.5 4 5 1 2-4 5-11 5-19 0-5-2-8-6-8-4 0-6 2-9 2z" fill="#fff"/></svg><span class="logo-text">DENTAL<span style="color:#7fd4d4">MARKETING PROS</span></span></div>
+        <p class="foot-about">Specialist dental marketing that attracts more patients, strengthens your reputation and grows your practice.</p>
+        <p class="compliance-note">GDC &amp; ASA-compliant marketing. We keep your campaigns within advertising guidelines.</p>
+      </div>
+      <div><h5>Services</h5><ul><li><a href="seo.html">SEO</a></li><li><a href="ppc.html">PPC Advertising</a></li><li><a href="web-design.html">Web Design</a></li><li><a href="locations.html">Locations</a></li></ul></div>
+      <div><h5>Locations</h5><ul><li><a href="dental-marketing-sheffield.html">Sheffield</a></li><li><a href="dental-marketing-doncaster.html">Doncaster</a></li><li><a href="dental-marketing-rotherham.html">Rotherham</a></li><li><a href="dental-marketing-barnsley.html">Barnsley</a></li><li><a href="dental-marketing-chesterfield.html">Chesterfield</a></li></ul></div>
+      <div><h5>Company</h5><ul><li><a href="about.html">About Us</a></li><li><a href="resources.html">Resources</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h5>Contact Us</h5><ul><li>📞 <a href="tel:01246922127">01246 922127</a></li><li>✉ hello@dentalmarketingpros.co.uk</li><li>📍 UClimb Ltd<br>5th Floor<br>167&ndash;169 Great Portland Street<br>London<br>W1W 5PF</li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Dental Marketing Pros, a trading name of UClimb Ltd. All rights reserved.<br>Company number 12505792 | VAT number GB328400425</span>
+      <span><a href="privacy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms &amp; Conditions</a> &nbsp;·&nbsp; <a href="cookies.html">Cookie Policy</a> &nbsp;·&nbsp; <a href="#" onclick="window.openCookieSettings&&window.openCookieSettings();return false;">Cookie settings</a></span>
+    </div>
+  </div>
+</footer>
+<script>
+  (function(){var btn=document.querySelector('.menu-btn'),nav=document.querySelector('nav');if(!btn||!nav)return;btn.addEventListener('click',function(){var o=nav.classList.toggle('open');btn.setAttribute('aria-expanded',o?'true':'false');btn.textContent=o?'\u2715':'\u2630';});nav.querySelectorAll('.nav-links a, .nav-cta a').forEach(function(l){l.addEventListener('click',function(){nav.classList.remove('open');btn.textContent='\u2630';});});})();
+</script>
+<script defer src="cookies.js"></script>
+</body>
+</html>
