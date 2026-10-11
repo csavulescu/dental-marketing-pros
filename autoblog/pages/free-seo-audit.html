@@ -36,14 +36,10 @@
       <div class="form-card">
         <h2 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:1.5rem;margin-bottom:6px">Request your free audit</h2>
         <p style="color:var(--slate);font-size:.92rem;margin-bottom:22px">Fields marked * are required.</p>
-        <form action="https://formsubmit.co/cs@london-designs.com" method="POST">
-          <input type="hidden" name="_subject" value="Free SEO audit request from the Dental Marketing Pros website">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_cc" value="cristian@uclimb.co.uk">
-          <input type="hidden" name="_next" value="https://dentalmarketingpros.co.uk/thank-you.html">
-          <input type="hidden" name="request_type" value="Free SEO audit">
+        <form action="/api/enquiry" method="POST" data-dmp-form="audit">
+          <!-- spam trap: real visitors never see or fill this field -->
           <input type="text" name="_honey" class="dmp-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="dmp-honey" aria-hidden="true"><label for="url-free">Leave this blank</label><input type="text" id="url-free" name="url" tabindex="-1" autocomplete="off"></div>
 
           <div class="field"><label for="name">Your name *</label><input id="name" name="name" type="text" autocomplete="name" required></div>
           <div class="field"><label for="email">Email *</label><input id="email" name="email" type="email" autocomplete="email" required></div>
@@ -52,7 +48,9 @@
           <div class="field"><label for="notes">Anything you'd like us to look at?</label><textarea id="notes" name="notes" style="min-height:90px"></textarea></div>
           <p class="form-consent">By submitting this form you agree to our <a href="privacy.html">Privacy Policy</a>. We'll only use your details to prepare and send your audit.</p>
           <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send me my free audit</button>
+          <p class="form-recaptcha-note" hidden style="font-size:.78rem;color:var(--slate);margin-top:12px">This form is protected by reCAPTCHA. The Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
         </form>
+        <script defer src="form-guard.js"></script>
       </div>
       <div class="prose">
         <span class="eyebrow">What you'll get</span>

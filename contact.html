@@ -88,15 +88,10 @@
       <div class="form-card">
         <h2 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:1.5rem;margin-bottom:6px">Send us a message</h2>
         <p style="color:var(--slate);font-size:.92rem;margin-bottom:22px">Fields marked * are required.</p>
-        <form action="https://formsubmit.co/cs@london-designs.com" method="POST">
-          <!-- FormSubmit settings -->
-          <input type="hidden" name="_subject" value="New enquiry from the Dental Marketing Pros website">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_cc" value="cristian@uclimb.co.uk">
-          <input type="hidden" name="_next" value="https://dentalmarketingpros.co.uk/thank-you.html">
-          <!-- honeypot (spam trap) -->
+        <form action="/api/enquiry" method="POST" data-dmp-form="contact">
+          <!-- spam trap: real visitors never see or fill this field -->
           <input type="text" name="_honey" class="dmp-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="dmp-honey" aria-hidden="true"><label for="url-cont">Leave this blank</label><input type="text" id="url-cont" name="url" tabindex="-1" autocomplete="off"></div>
 
           <div class="field-row">
             <div class="field"><label for="name">Your name *</label><input id="name" name="name" type="text" required></div>
@@ -123,7 +118,9 @@
           <div class="field"><label for="message">How can we help? *</label><textarea id="message" name="message" required></textarea></div>
           <p class="form-consent">By submitting this form you agree to our <a href="privacy.html">Privacy Policy</a>. We'll only use your details to respond to your enquiry.</p>
           <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send enquiry</button>
+          <p class="form-recaptcha-note" hidden style="font-size:.78rem;color:var(--slate);margin-top:12px">This form is protected by reCAPTCHA. The Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
         </form>
+        <script defer src="form-guard.js"></script>
       </div>
 
       <div class="form-aside">
