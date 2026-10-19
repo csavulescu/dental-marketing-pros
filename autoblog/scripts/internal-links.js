@@ -103,7 +103,7 @@ const PHRASES = [
 // town service page + anchor per pillar
 const PILLAR_TOWN = {
   SEO: ["dental-seo-", t => `dental SEO in ${t}`],
-  PPC: ["dental-ppc-", t => `Google Ads for dentists in ${t}`],
+  PPC: ["dental-ppc-", t => `dental Google Ads in ${t}`],
   Web: ["dental-web-design-", t => `dental web design in ${t}`],
   GEO: ["dental-geo-", t => `GEO and AI search for ${t} practices`]
 };
