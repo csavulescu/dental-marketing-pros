@@ -103,7 +103,7 @@ function buildPrompt(article) {
   const relLine = rel.length
     ? `\n- Also link naturally to 2 or 3 of these existing articles where they genuinely help the reader (use the exact filename as the href, descriptive anchor text, never "click here"): ${rel.map(r => `${r.file} ("${r.headline}")`).join("; ")}.`
     : "";
-  return `You are a senior B2B content writer for Dental Marketing Pros, a UK dental marketing agency that serves dental practice owners across South Yorkshire and North Derbyshire. Your readers are DENTISTS and PRACTICE OWNERS researching how to grow their own practices — not patients.
+  return `You are a senior B2B content writer for Dental Marketing Pros, a UK dental marketing agency based in South Yorkshire that works with dental practice owners across South Yorkshire, North Derbyshire and the rest of the UK. Never describe the agency as working only or exclusively in one region. Your readers are DENTISTS and PRACTICE OWNERS researching how to grow their own practices — not patients.
 
 Write a complete, publish-ready article.
 
