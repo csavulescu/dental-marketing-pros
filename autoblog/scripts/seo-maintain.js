@@ -129,6 +129,7 @@ function loadSite() {
     "how-to-get-more-patients-dental-practice.html": "Money",
     "nhs-to-private-dental-practice-conversion.html": "Money",
     "is-google-ads-worth-it-for-dentists.html": "PPC",
+    "google-ads-for-dentists-a-complete-guide-for-uk-practices.html": "PPC",
     "dental-seo-how-to-rank-google-map-pack.html": "SEO"
   };
   const pages = {};

@@ -97,13 +97,22 @@ const PHRASES = [
   ["GDC and ASA|ASA and GDC", "gdc-asa-compliant-dental-advertising-what-you-can-and-cant-say.html", ""],
   ["map pack", "dental-seo-how-to-rank-google-map-pack.html"],
   ["local SEO", "local-seo-for-dentists-ranking-for-dentist-near-me.html"],
-  ["generative engine optimisation|AI Overviews", "what-is-geo-a-plain-english-guide-for-dental-practice-owners.html"]
+  ["generative engine optimisation|AI Overviews", "what-is-geo-a-plain-english-guide-for-dental-practice-owners.html"],
+  // 2026-10-26: pillar guide for "google ads for dentists" (informational SERP),
+  // and the PPC service page for commercial "dental PPC" wording
+  ["Google Ads for (?:dentists|dental practices)", "google-ads-for-dentists-a-complete-guide-for-uk-practices.html"],
+  ["dental PPC(?: management| services?| agency)?|PPC for dent(?:ists|al practices)", "ppc.html"]
 ];
 
-// town service page + anchor per pillar
+// town service page + anchor per pillar. anchorFn(town, articleFile).
+// PPC (2026-10-26): "dental PPC" and "dental Google Ads" split evenly across
+// articles by a stable hash, so the town PPC pages carry both terms. All-Google-Ads
+// anchors from 19 Oct coincided with "dental ppc" dropping out of the top 10.
 const PILLAR_TOWN = {
   SEO: ["dental-seo-", t => `dental SEO in ${t}`],
-  PPC: ["dental-ppc-", t => `dental Google Ads in ${t}`],
+  // (bit 5 rather than % 2: FNV's lowest bit tracks filename parity and gave
+  // Sheffield only Google Ads anchors and Rotherham only PPC ones)
+  PPC: ["dental-ppc-", (t, f) => (hash(f + ":anchor") >>> 5) & 1 ? `dental PPC in ${t}` : `dental Google Ads in ${t}`],
   Web: ["dental-web-design-", t => `dental web design in ${t}`],
   GEO: ["dental-geo-", t => `GEO and AI search for ${t} practices`]
 };
@@ -169,7 +178,7 @@ function nextStepParagraph(page, exists) {
   const [prefix, anchorFn] = PILLAR_TOWN[page.pillar] || DEFAULT_TOWN;
   town_file = `${prefix}${townName}.html`;
   if (!exists(town_file)) town_file = `dental-marketing-${townName}.html`;
-  anchor = (exists(`${prefix}${townName}.html`) ? anchorFn : DEFAULT_TOWN[1])(cap(townName));
+  anchor = (exists(`${prefix}${townName}.html`) ? anchorFn : DEFAULT_TOWN[1])(cap(townName), page.file);
   const link = `<a href="${town_file}">${anchor}</a>`;
   const loc = `<a href="locations.html">`;
   const variants = [
