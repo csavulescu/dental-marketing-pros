@@ -42,6 +42,20 @@
     });
   }
 
+  // GA4 conversion via GTM: push generate_lead, then continue once GTM has handled it (or after 1.2s).
+  function trackLead(form, done) {
+    var called = false;
+    function go() { if (!called) { called = true; done(); } }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "generate_lead",
+      form_name: form.getAttribute("data-dmp-form") || "enquiry",
+      eventCallback: go,
+      eventTimeout: 1200
+    });
+    setTimeout(go, 1500);
+  }
+
   function showError(form, msg) {
     var box = form.querySelector(".form-error");
     if (!box) {
@@ -94,11 +108,11 @@
             f.appendChild(i);
           });
           document.body.appendChild(f);
-          f.submit();
+          trackLead(form, function () { f.submit(); });
           return;
         }
         if (out && out.ok) {
-          window.location.href = out.redirect || "/thank-you.html";
+          trackLead(form, function () { window.location.href = out.redirect || "/thank-you.html"; });
           return;
         }
         showError(form, (out && out.error) || "Sorry, something went wrong. Please try again, or call us on 01246 922127.");
