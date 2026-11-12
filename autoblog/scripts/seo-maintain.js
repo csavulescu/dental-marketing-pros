@@ -444,7 +444,7 @@ function setArticleSchemaAuthor(page) {
   bp.image = OG_IMAGE;
   if (bp.publisher && typeof bp.publisher === "object") {
     bp.publisher.url = BASE + "/";
-    bp.publisher.logo = { "@type": "ImageObject", "url": BASE + "/favicon.svg" };
+    bp.publisher.logo = { "@type": "ImageObject", "url": BASE + "/logo.png" };
   }
   const replacement = `<script type="application/ld+json">${jsonLd(b.data)}</script>`;
   page.html = page.html.replace(b.full, () => replacement);
